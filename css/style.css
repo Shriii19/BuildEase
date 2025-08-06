@@ -1,0 +1,166 @@
+/* ==========================================================================
+EASY CUSTOMIZATION AREA: CSS VARIABLES
+==========================================================================
+Change the values below to easily re-theme the entire website.
+*/
+:root {
+    --primary-color: #3b82f6; /* Blue 500 in Tailwind */
+    --primary-hover-color: #2563eb; /* Blue 600 in Tailwind */
+    --secondary-color: #10b981; /* Emerald 500 in Tailwind */
+    --background-color: #f9fafb; /* Gray 50 in Tailwind */
+    --card-background-color: #ffffff; /* White */
+    --text-color: #1f2937; /* Gray 800 in Tailwind */
+    --heading-color: #111827; /* Gray 900 in Tailwind */
+    --subtle-text-color: #6b7280; /* Gray 500 in Tailwind */
+    --border-color: #e5e7eb; /* Gray 200 in Tailwind */
+    --accent-color: #8b5cf6; /* Purple 500 in Tailwind */
+}
+
+/* Mobile Menu Toggle Style */
+.mobile-menu {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+.mobile-menu.active {
+    transform: translateY(0);
+}
+
+/* Basic styling for the AI button loading state */
+.ai-btn[disabled] {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Get Started dropdown */
+.get-started-dropdown {
+    opacity: 0;
+    transform: translateY(10px);
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.get-started:hover .get-started-dropdown,
+.get-started:focus-within .get-started-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+/* Login/Signup form styling */
+.form-input {
+    transition: all 0.3s ease;
+}
+.form-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Hero animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+.floating {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Easy Edit Mode Styles */
+.editable-content {
+    position: relative;
+}
+
+.editable-content:hover::after {
+    content: "✏️ Click to edit";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.edit-hint {
+    border: 2px dashed transparent;
+    transition: all 0.3s ease;
+}
+
+.edit-hint:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Template Info Banner */
+.template-info {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.template-info a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Added for mobile menu scroll lock */
+body.menu-open {
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Form validation styles */
+.form-input.error {
+    border-color: #ef4444;
+}
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* Page-specific styles */
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    background: var(--card-background-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+.page-content {
+    flex: 1;
+    padding: 2rem 0;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--primary-hover-color);
+}
+
+.back-link i {
+    margin-right: 0.5rem;
+}
