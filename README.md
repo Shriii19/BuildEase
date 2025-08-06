@@ -1,12 +1,97 @@
-# 🚀 LaunchPad - AI-Powered Website Template
+# BuildEase - Structured Website Project
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+A modern, AI-powered website template with a clean, organized file structure.
 
-A modern, responsive website template designed for users with **little to no coding experience**. Built with AI-powered content generation, intuitive customization, and one-click deployment ready.
+## 📁 Project Structure
+
+```
+BuildEase/
+├── index.html          # Main landing page
+├── css/
+│   └── style.css       # All CSS styling and variables
+├── js/
+│   └── script.js       # All JavaScript functionality
+├── about/
+│   └── about.html      # About page
+├── services/
+│   └── services.html   # Services page with pricing
+├── login/
+│   └── login.html      # Login/Signup page
+└── README.md          # This file
+```
+
+## 🌟 Features
+
+- **Separated Concerns**: CSS, JavaScript, and HTML are properly separated
+- **Modular Design**: Each section has its own dedicated page
+- **Responsive Layout**: Works perfectly on all devices
+- **AI-Powered Content**: Integrated Gemini AI for content generation
+- **Easy Navigation**: All pages link back to the main index
+- **Clean Architecture**: Organized folder structure for easy maintenance
+
+## 🚀 Getting Started
+
+1. **Customize Colors**: Edit the CSS variables in `css/style.css` (lines 8-17)
+2. **Update Content**: Modify the HTML files for each section
+3. **Brand Customization**: Replace "BuildEase" with your brand name
+4. **Add AI Features**: Add your Gemini API key in `js/script.js`
+
+## 📄 Page Navigation
+
+- **Home** (`index.html`): Main landing page with hero section and contact CTA
+- **About** (`about/about.html`): Company information and feature showcase
+- **Services** (`services/services.html`): Service listings with pricing plans
+- **Login** (`login/login.html`): User authentication page
+
+## 🎨 Customization
+
+### Colors
+Edit these CSS variables in `css/style.css`:
+```css
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #10b981;
+    --accent-color: #8b5cf6;
+    /* ... more variables */
+}
+```
+
+### Content
+- Each page includes "Back to Home" navigation
+- All external links point to the appropriate section pages
+- Consistent header and footer across all pages
+
+## 🔧 Technical Details
+
+- **Framework**: Vanilla HTML, CSS, JavaScript
+- **Styling**: Tailwind CDN + Custom CSS
+- **Icons**: Font Awesome
+- **Fonts**: Google Fonts (Inter)
+- **AI Integration**: Google Gemini API
+
+## 📱 Responsive Design
+
+The website is fully responsive and tested on:
+- Desktop computers
+- Tablets
+- Mobile phones
+- Various screen sizes
+
+## 🌐 Deployment
+
+Ready for deployment on:
+- Netlify (Drag & drop)
+- Vercel (Git integration)
+- GitHub Pages
+- Any static hosting service
+
+## 📞 Support
+
+For questions or customization help, refer to the inline comments in each file or the customization guide sections within the pages.
+
+---
+
+Built with ❤️ using BuildEase Template
 
 ## ✨ Features
 
