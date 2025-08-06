@@ -1,18 +1,63 @@
-# 🚀 BuildEase - Modern Website Builder Platform
+# BuildEase
 
-A comprehensive, AI-powered website platform with modular architecture and professional design. Built for creators, entrepreneurs, and businesses who want a stunning web presence without the complexity.
+A modern, AI-powered website platform with modular architecture.
 
-![BuildEase](https://img.shields.io/badge/Version-2.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg) ![Responsive](https://img.shields.io/badge/Responsive-Yes-brightgreen.svg)
+## Project Structure
 
-## ✨ What's New in Version 2.0
+```
+BuildEase/
+├── index.html              # Main landing page
+├── css/style.css           # Styling and variables
+├── js/script.js            # JavaScript functionality
+├── about/about.html        # About page
+├── services/services.html  # Services page
+├── contact/contact.html    # Contact page
+└── login/login.html        # Login page
+```
 
-- 🏗️ **Modular Architecture**: Organized folder structure with separated concerns
-- 📞 **Contact System**: Dedicated contact page with forms and business info
-- 🎨 **Enhanced UI**: Improved design with better user experience
-- 🧭 **Consistent Navigation**: Unified navigation across all pages
-- 📱 **Mobile-First**: Fully responsive design for all devices
+## Features
 
-## 📁 Project Structure
+- Modular architecture with separated CSS/JS
+- AI-powered content generation (Gemini API)
+- Fully responsive design
+- Professional UI with TailwindCSS
+- Easy customization
+
+## Quick Start
+
+1. Open `index.html` in your browser
+2. Customize colors in `css/style.css`
+3. Update content in HTML files
+4. Deploy to any static hosting platform
+
+## Customization
+
+### Colors
+Edit CSS variables in `css/style.css`:
+```css
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #10b981;
+    --accent-color: #8b5cf6;
+}
+```
+
+### AI Setup
+Add your Gemini API key in `js/script.js`:
+```javascript
+const API_KEY = "your-gemini-api-key-here";
+```
+
+## Deployment
+
+- Netlify (drag & drop)
+- Vercel 
+- GitHub Pages
+- Firebase Hosting
+
+## License
+
+MIT
 
 ```
 BuildEase/
