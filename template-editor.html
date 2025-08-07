@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Editor | OpenWeb Starter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-editor {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            min-height: 400px;
+        }
+        .preview-frame {
+            border: none;
+            width: 100%;
+            height: 500px;
+            background: white;
+            border-radius: 8px;
+        }
+        .template-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .template-card.selected {
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .editor-panel {
+            display: none;
+        }
+        .editor-panel.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center">
+                <i class="fas fa-arrow-left mr-3 text-lg"></i>
+                <i class="fas fa-code text-blue-500 mr-2"></i>
+                <span>OpenWeb Starter</span>
+            </a>
+            
+            <div class="flex items-center gap-4">
+                <button id="deploy-btn" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-medium" style="display:none;">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Deploy
+                </button>
+                <button id="download-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium" style="display:none;">
+                    <i class="fas fa-download mr-2"></i>
+                    Download
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        
+        <!-- Template Selection Panel -->
+        <div id="template-selection" class="template-selection-panel">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Choose Your Template</h1>
+                <p class="text-gray-600 text-lg">Select a template to start editing. You can customize everything!</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Portfolio Template -->
+                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="portfolio">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Portfolio Template</h3>
+                        <p class="text-gray-600 mb-4">Perfect for showcasing your work, projects, and skills. Includes sections for about, projects, and contact.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">About</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Projects</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Contact</span>
+                        </div>
+                        <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors font-medium select-template-btn">
+                            Select Template
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Resume Template -->
+                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="resume">
+                    <div class="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+                        <i class="fas fa-file-alt text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Resume Template</h3>
+                        <p class="text-gray-600 mb-4">Professional resume layout with sections for experience, education, skills, and achievements.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Experience</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Education</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Skills</span>
+                        </div>
+                        <button class="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors font-medium select-template-btn">
+                            Select Template
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Landing Page Template -->
+                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="landing">
+                    <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                        <i class="fas fa-rocket text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Landing Page</h3>
+                        <p class="text-gray-600 mb-4">Clean landing page template for products, services, or personal branding with call-to-action sections.</p>
+                        <div class="flex gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Hero</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Features</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">CTA</span>
+                        </div>
+                        <button class="w-full bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors font-medium select-template-btn">
+                            Select Template
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Editor Panel -->
+        <div id="editor-panel" class="editor-panel">
+            <div class="mb-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Template Editor</h2>
+                    <button id="back-to-templates" class="text-gray-600 hover:text-gray-800 flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Templates
+                    </button>
+                </div>
+                <p class="text-gray-600 mt-2">Edit the code on the left and see live preview on the right</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-6">
+                
+                <!-- Code Editor -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-800 text-white px-6 py-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="ml-4 text-sm font-mono">index.html</span>
+                        </div>
+                        <button id="reset-code" class="text-sm hover:text-gray-300">
+                            <i class="fas fa-undo mr-1"></i>
+                            Reset
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <textarea id="code-editor" class="code-editor w-full resize-none border-none outline-none" placeholder="Loading template..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Live Preview -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-100 px-6 py-3 border-b flex items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                            <span class="ml-4 text-sm text-gray-600 font-mono">Live Preview</span>
+                        </div>
+                    </div>
+                    <div class="p-0">
+                        <iframe id="preview-frame" class="preview-frame"></iframe>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="deploy-website" class="bg-green-500 text-white py-3 px-8 rounded-lg hover:bg-green-600 transition-colors font-medium flex items-center justify-center">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Deploy to Web
+                </button>
+                <button id="download-code" class="bg-blue-500 text-white py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors font-medium flex items-center justify-center">
+                    <i class="fas fa-download mr-2"></i>
+                    Download Code
+                </button>
+                <button id="save-project" class="bg-purple-500 text-white py-3 px-8 rounded-lg hover:bg-purple-600 transition-colors font-medium flex items-center justify-center">
+                    <i class="fas fa-save mr-2"></i>
+                    Save Project
+                </button>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- Deploy Modal -->
+    <div id="deploy-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-lg max-w-md w-full">
+            <div class="p-6">
+                <h3 class="text-xl font-bold mb-4">Deploy Your Website</h3>
+                <p class="text-gray-600 mb-6">Choose where you want to deploy your website:</p>
+                
+                <div class="space-y-3">
+                    <button class="w-full bg-gray-900 text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center">
+                        <i class="fab fa-github mr-3"></i>
+                        Deploy to GitHub Pages
+                    </button>
+                    <button class="w-full bg-teal-500 text-white py-3 px-4 rounded-lg hover:bg-teal-600 transition-colors flex items-center">
+                        <i class="fas fa-globe mr-3"></i>
+                        Deploy to Netlify
+                    </button>
+                    <button class="w-full bg-black text-white py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center">
+                        <i class="fas fa-triangle mr-3"></i>
+                        Deploy to Vercel
+                    </button>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t">
+                    <button id="close-deploy-modal" class="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/template-editor.js"></script>
+</body>
+</html>

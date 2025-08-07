@@ -16,6 +16,27 @@ Change the values below to easily re-theme the entire website.
     --accent-color: #8b5cf6; /* Purple 500 in Tailwind */
 }
 
+/* Template Info Banner */
+.template-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    position: relative;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.template-info a {
+    color: #fbbf24;
+    text-decoration: underline;
+    margin: 0 4px;
+}
+
+.template-info a:hover {
+    color: #f59e0b;
+}
+
 /* Mobile Menu Toggle Style */
 .mobile-menu {
     transform: translateY(-100%);

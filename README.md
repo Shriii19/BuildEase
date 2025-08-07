@@ -1,63 +1,118 @@
-# BuildEase
+# OpenWeb Starter
 
-A modern, AI-powered website platform with modular architecture.
+Build your personal website instantly – no downloads, no coding! With our in-browser template editor, you can choose from ready-made templates and customize them directly on our website.
 
-## Project Structure
+## ✨ Key Features
 
-```
-BuildEase/
-├── index.html              # Main landing page
-├── css/style.css           # Styling and variables
-├── js/script.js            # JavaScript functionality
-├── about/about.html        # About page
-├── services/services.html  # Services page
-├── contact/contact.html    # Contact page
-└── login/login.html        # Login page
-```
+- **In-Browser Editor**: Edit templates directly in your browser - no installations required
+- **Live Preview**: See changes update in real-time as you type
+- **Visual Forms**: Simple forms to edit name, bio, projects, and links
+- **One-Click Deploy**: Deploy directly to GitHub Pages, Netlify, or Vercel
+- **Download Option**: Get complete website files (HTML, CSS, JS) anytime
+- **Mobile-First**: Responsive design that works on all devices
 
-## Features
+## 🚀 How It Works
 
-- Modular architecture with separated CSS/JS
-- AI-powered content generation (Gemini API)
-- Fully responsive design
-- Professional UI with TailwindCSS
-- Easy customization
+1. **Choose Template**: Select from Portfolio, Resume, or Landing Page templates
+2. **Edit in Browser**: Use our visual form editor to customize your content
+3. **Deploy or Download**: Launch directly to hosting platforms or download files
 
-## Quick Start
+## 🎯 Perfect For
 
-1. Open `index.html` in your browser
-2. Customize colors in `css/style.css`
-3. Update content in HTML files
-4. Deploy to any static hosting platform
+- **Developers** who want quick portfolio setup
+- **Students** building their first website
+- **Freelancers** creating professional presence
+- **Anyone** who wants a website without coding
 
-## Customization
+## 🌐 Live Editor Features
 
-### Colors
-Edit CSS variables in `css/style.css`:
-```css
-:root {
-    --primary-color: #3b82f6;
-    --secondary-color: #10b981;
-    --accent-color: #8b5cf6;
-}
-```
+### Visual Form Editor
+- Personal information (name, bio, contact)
+- Projects showcase with links
+- Skills and experience
+- Social media links
+- Theme customization
 
-### AI Setup
-Add your Gemini API key in `js/script.js`:
-```javascript
-const API_KEY = "your-gemini-api-key-here";
-```
+### Real-Time Preview
+- Instant updates as you type
+- Mobile and desktop preview
+- Theme color changes
+- Typography adjustments
 
-## Deployment
+### Deployment Options
+- **GitHub Pages**: Connect your GitHub account
+- **Netlify**: One-click deployment
+- **Vercel**: Instant hosting
+- **Download**: Get all files locally
 
-- Netlify (drag & drop)
-- Vercel 
-- GitHub Pages
-- Firebase Hosting
+## 📁 Templates Available
 
-## License
+### Portfolio Template
+Perfect for showcasing creative work
+- Project gallery
+- Skills section
+- About page
+- Contact form
 
-MIT
+### Resume Template
+Professional CV layout
+- Work experience
+- Education timeline
+- Skills grid
+- Download PDF option
+
+### Landing Page Template
+Clean marketing page
+- Hero section
+- Feature highlights
+- Testimonials
+- Call-to-action
+
+## 🛠️ Technical Stack
+
+- **Frontend**: Pure HTML5, CSS3, JavaScript
+- **Styling**: TailwindCSS + Custom CSS
+- **Icons**: Font Awesome
+- **Fonts**: Google Fonts (Inter)
+- **No Framework Dependencies**: Fast loading, lightweight
+
+## 🎨 Customization
+
+All customization happens through visual forms:
+- **Content**: Name, bio, projects, contact info
+- **Colors**: Choose theme colors with color picker
+- **Layout**: Select from multiple template variations
+- **Images**: Upload or use placeholder images
+
+## 📱 Responsive Design
+
+All templates are mobile-first and work perfectly on:
+- Mobile phones (iOS/Android)
+- Tablets (iPad, Android tablets)
+- Desktop computers
+- Large displays
+
+## 🔒 Privacy & Security
+
+- **No Account Required**: Use immediately without signup
+- **Local Storage**: Your data stays in your browser
+- **No Tracking**: We don't collect personal information
+- **Open Source**: Full transparency in code
+
+## 🤝 Community & Support
+
+- **Open Source**: MIT License, free to use and modify
+- **GitHub**: Contribute, report issues, request features
+- **Documentation**: Comprehensive guides and tutorials
+- **Examples**: Live demos and sample websites
+
+## 📄 License
+
+MIT License - Free to use for personal and commercial projects with attribution.
+
+## ⭐ Show Your Support
+
+If OpenWeb Starter helped you build something amazing, please give us a star on GitHub!
 
 ```
 BuildEase/

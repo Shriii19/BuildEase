@@ -27,7 +27,10 @@ tailwind.config = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('🚀 BuildEase Template initialized successfully!');
+    console.log('🚀 OpenWeb Starter initialized successfully!');
+    
+    // --- Live Editor Demo ---
+    initLiveEditor();
     
     // --- Mobile Menu Toggle ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -369,3 +372,67 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+// Live Editor Demo Functionality
+function initLiveEditor() {
+    const editorForm = document.getElementById('live-editor-form');
+    if (!editorForm) return;
+    
+    const inputs = {
+        name: document.getElementById('editor-name'),
+        title: document.getElementById('editor-title'),
+        bio: document.getElementById('editor-bio'),
+        email: document.getElementById('editor-email'),
+        color: document.getElementById('editor-color')
+    };
+    
+    const preview = {
+        name: document.getElementById('preview-name'),
+        title: document.getElementById('preview-title'),
+        bio: document.getElementById('preview-bio'),
+        email: document.getElementById('preview-email')
+    };
+    
+    // Update preview in real-time
+    function updatePreview() {
+        if (inputs.name && preview.name) preview.name.textContent = inputs.name.value;
+        if (inputs.title && preview.title) preview.title.textContent = inputs.title.value;
+        if (inputs.bio && preview.bio) preview.bio.textContent = inputs.bio.value;
+        if (inputs.email && preview.email) {
+            preview.email.textContent = inputs.email.value;
+            preview.email.href = `mailto:${inputs.email.value}`;
+        }
+        
+        // Update color theme
+        if (inputs.color) {
+            const color = inputs.color.value;
+            const previewContainer = document.getElementById('live-preview');
+            if (previewContainer) {
+                const avatar = previewContainer.querySelector('.bg-primary');
+                const title = previewContainer.querySelector('#preview-title');
+                const email = previewContainer.querySelector('#preview-email');
+                
+                if (avatar) {
+                    avatar.style.backgroundColor = color;
+                }
+                if (title) {
+                    title.style.color = color;
+                }
+                if (email) {
+                    email.style.color = color;
+                }
+            }
+        }
+    }
+    
+    // Add event listeners for real-time updates
+    Object.values(inputs).forEach(input => {
+        if (input) {
+            input.addEventListener('input', updatePreview);
+            input.addEventListener('change', updatePreview);
+        }
+    });
+    
+    // Initial update
+    updatePreview();
+}

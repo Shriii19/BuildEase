@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuildEase | Easy Website Builder Template</title>
+    <title>OpenWeb Starter | Build Your Website Instantly</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,11 +13,11 @@
 </head>
 <body class="bg-background font-sans text-text">
     
-    <!-- Template Info Banner for Easy Editing -->
+    <!-- Quick Setup Banner -->
     <div class="template-info">
-        🚀 <strong>BuildEase Template</strong> - Ready to customize! 
-        <a href="#customization-guide">View Customization Guide</a> | 
-        <a href="#deployment-ready">Deploy Now</a>
+        🚀 <strong>OpenWeb Starter</strong> - Build websites instantly in your browser! 
+        <a href="#live-editor">Try Live Editor</a> | 
+        <a href="#templates">Browse Templates</a>
         <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-200 text-xl font-bold" onclick="this.parentElement.style.display='none'">×</button>
     </div>
     
@@ -28,48 +28,21 @@
     -->
     <header class="bg-card shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-heading flex items-center editable-content edit-hint">
-                <i class="fas fa-rocket text-accent mr-2"></i>
-                <span>BuildEase</span>
+            <a href="index.html" class="text-2xl font-bold text-heading flex items-center">
+                <i class="fas fa-code text-accent mr-2"></i>
+                <span id="site-name">OpenWeb Starter</span>
             </a>
             
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="#home" class="text-subtle hover:text-primary transition-colors font-medium">Home</a>
-                <a href="about/about.html" class="text-subtle hover:text-primary transition-colors font-medium">About</a>
-                <a href="services/services.html" class="text-subtle hover:text-primary transition-colors font-medium">Services</a>
-                <a href="contact/contact.html" class="text-subtle hover:text-primary transition-colors font-medium">Contact</a>
+                <a href="#templates" class="text-subtle hover:text-primary transition-colors font-medium">Templates</a>
+                <a href="#live-editor" class="text-subtle hover:text-primary transition-colors font-medium">Live Editor</a>
+                <a href="#features" class="text-subtle hover:text-primary transition-colors font-medium">Features</a>
                 
-                <!-- Get Started dropdown -->
-                <div class="get-started relative">
-                    <button class="bg-primary text-white py-2 px-4 rounded-lg hover:bg-primaryHover transition-colors flex items-center font-medium">
-                        Get Started <i class="fas fa-chevron-down ml-2 text-sm"></i>
-                    </button>
-                    <div class="get-started-dropdown absolute right-0 mt-2 w-64 bg-card rounded-lg shadow-lg border border-border p-4 z-50">
-                        <h3 class="text-lg font-bold text-heading mb-3">Welcome to BuildEase</h3>
-                        <div class="space-y-3">
-                            <button id="login-btn" class="w-full bg-primary/10 text-primary py-2 px-4 rounded-md hover:bg-primary/20 transition-colors font-medium">
-                                Get Started
-                            </button>
-                            <button id="signup-btn" class="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-primaryHover transition-colors font-medium">
-                                Create Account
-                            </button>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-border">
-                            <p class="text-sm text-subtle">Or continue with:</p>
-                            <div class="flex justify-center mt-2 space-x-4">
-                                <button class="text-subtle hover:text-primary">
-                                    <i class="fab fa-google text-xl"></i>
-                                </button>
-                                <button class="text-subtle hover:text-primary">
-                                    <i class="fab fa-facebook text-xl"></i>
-                                </button>
-                                <button class="text-subtle hover:text-primary">
-                                    <i class="fab fa-twitter text-xl"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Get Started Button -->
+                <a href="template-editor.html" class="bg-primary text-white py-2 px-4 rounded-lg hover:bg-primaryHover transition-colors font-medium">
+                    Start Building
+                </a>
             </div>
             
             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-subtle hover:bg-gray-100 focus:outline-none">
@@ -79,16 +52,13 @@
         
         <div id="mobile-menu" class="mobile-menu absolute top-full left-0 w-full bg-card shadow-md md:hidden">
             <a href="#home" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Home</a>
-            <a href="about/about.html" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">About</a>
-            <a href="services/services.html" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Services</a>
-            <a href="contact/contact.html" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Contact</a>
+            <a href="#templates" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Templates</a>
+            <a href="#live-editor" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Live Editor</a>
+            <a href="#features" class="block text-center py-3 px-4 text-subtle hover:bg-gray-50 hover:text-primary font-medium">Features</a>
             <div class="p-4 border-t border-border">
-                <button id="mobile-login-btn" class="w-full bg-primary/10 text-primary py-2 px-4 rounded-md mb-3 font-medium">
-                    Get Started
-                </button>
-                <button id="mobile-signup-btn" class="w-full bg-primary text-white py-2 px-4 rounded-md font-medium">
-                    Create Account
-                </button>
+                <a href="template-editor.html" class="w-full bg-primary text-white py-2 px-4 rounded-md font-medium block text-center">
+                    Start Building
+                </a>
             </div>
         </div>
     </header>
@@ -102,29 +72,23 @@
         <section id="home" class="py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
                 <div class="relative inline-block">
-                    <h1 id="hero-heading" class="text-4xl md:text-6xl font-bold text-heading mb-4 editable-content edit-hint">
-                        Transform Your Ideas Into Reality
+                    <h1 id="hero-heading" class="text-4xl md:text-6xl font-bold text-heading mb-4">
+                        Build Your Website Instantly
                     </h1>
-                    <div class="absolute -top-4 -right-4 bg-accent text-white text-xs px-2 py-1 rounded-full rotate-12">AI-Powered</div>
-                </div>
-                 <!-- ✨ GEMINI FEATURE: AI-powered headline suggestions -->
-                <div class="mt-4">
-                    <button id="suggest-headline-btn" class="ai-btn bg-secondary/10 text-secondary font-semibold py-2 px-4 rounded-full hover:bg-secondary/20 transition-colors">
-                        ✨ Suggest a new headline
-                    </button>
+                    <div class="absolute -top-4 -right-4 bg-accent text-white text-xs px-2 py-1 rounded-full rotate-12">In-Browser</div>
                 </div>
                 
-                <p class="text-lg md:text-xl text-subtle max-w-3xl mx-auto my-8 editable-content edit-hint">
-                    Our platform combines cutting-edge AI with intuitive design to help you build amazing digital experiences. Start your journey today.
+                <p class="text-lg md:text-xl text-subtle max-w-3xl mx-auto my-8">
+                    No downloads, no coding required! Choose a template, edit it live in your browser, and deploy instantly. Build professional websites in minutes with our visual editor.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
-                    <a href="services/services.html" class="bg-primary text-white py-3 px-8 rounded-lg text-lg hover:bg-primaryHover transition-colors shadow-lg font-medium">
-                        Explore Features
+                    <a href="template-editor.html" class="bg-primary text-white py-3 px-8 rounded-lg text-lg hover:bg-primaryHover transition-colors shadow-lg font-medium">
+                        Try Live Editor
                     </a>
-                    <button class="bg-white text-primary border border-primary py-3 px-8 rounded-lg text-lg hover:bg-primary/10 transition-colors font-medium">
-                        Watch Demo
-                    </button>
+                    <a href="#templates" class="bg-white text-primary border border-primary py-3 px-8 rounded-lg text-lg hover:bg-primary/10 transition-colors font-medium">
+                        Browse Templates
+                    </a>
                 </div>
                 
                 <div class="mt-16 max-w-4xl mx-auto">
@@ -132,27 +96,27 @@
                         <div class="flex flex-wrap justify-center gap-6">
                             <div class="flex flex-col items-center">
                                 <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                                    <i class="fas fa-bolt text-primary text-2xl"></i>
+                                    <i class="fas fa-browser text-primary text-2xl"></i>
                                 </div>
-                                <p class="font-medium">Lightning Fast</p>
+                                <p class="font-medium">In-Browser</p>
                             </div>
                             <div class="flex flex-col items-center">
                                 <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-3">
-                                    <i class="fas fa-robot text-secondary text-2xl"></i>
+                                    <i class="fas fa-eye text-secondary text-2xl"></i>
                                 </div>
-                                <p class="font-medium">AI Integrated</p>
+                                <p class="font-medium">Live Preview</p>
                             </div>
                             <div class="flex flex-col items-center">
                                 <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-3">
-                                    <i class="fas fa-lock text-accent text-2xl"></i>
+                                    <i class="fas fa-cloud-upload-alt text-accent text-2xl"></i>
                                 </div>
-                                <p class="font-medium">Secure</p>
+                                <p class="font-medium">One-Click Deploy</p>
                             </div>
                             <div class="flex flex-col items-center">
                                 <div class="w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center mb-3">
                                     <i class="fas fa-mobile-alt text-purple-500 text-2xl"></i>
                                 </div>
-                                <p class="font-medium">Responsive</p>
+                                <p class="font-medium">Mobile-First</p>
                             </div>
                         </div>
                     </div>
@@ -165,66 +129,66 @@
         FEATURES PREVIEW SECTION
         ==========================================================================
         -->
-        <section class="py-20 bg-card">
+        <section id="features" class="py-20 bg-card">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Why Choose BuildEase?</h2>
-                    <p class="text-subtle text-lg max-w-2xl mx-auto">Everything you need to build, launch, and grow your online presence</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Why Choose OpenWeb Starter?</h2>
+                    <p class="text-subtle text-lg max-w-2xl mx-auto">Everything you need to build and launch your website instantly</p>
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Feature 1 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-magic text-primary text-xl"></i>
+                            <i class="fas fa-browser text-primary text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">AI-Powered Design</h3>
-                        <p class="text-subtle">Let our AI suggest layouts, colors, and content that perfectly match your brand and goals.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">In-Browser Editor</h3>
+                        <p class="text-subtle">Edit templates directly in your browser. No downloads, no installations. Just open and start building.</p>
                     </div>
                     
                     <!-- Feature 2 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-mobile-alt text-secondary text-xl"></i>
+                            <i class="fas fa-eye text-secondary text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">Mobile-First</h3>
-                        <p class="text-subtle">Every template is optimized for all devices, ensuring your site looks perfect everywhere.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">Live Preview</h3>
+                        <p class="text-subtle">See your changes instantly as you type. Real-time preview shows exactly how your site will look.</p>
                     </div>
                     
                     <!-- Feature 3 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-rocket text-accent text-xl"></i>
+                            <i class="fas fa-cloud-upload-alt text-accent text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">Lightning Deploy</h3>
-                        <p class="text-subtle">Go live in minutes with our instant deployment and global CDN for blazing-fast loading.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">One-Click Deploy</h3>
+                        <p class="text-subtle">Deploy directly to GitHub Pages, Netlify, or Vercel. No manual uploads or complex configurations.</p>
                     </div>
                     
                     <!-- Feature 4 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                            <i class="fas fa-edit text-purple-500 text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">Analytics Dashboard</h3>
-                        <p class="text-subtle">Track visitors, conversions, and performance with our built-in analytics tools.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">Visual Form Editor</h3>
+                        <p class="text-subtle">Edit your content through simple forms. Update name, bio, projects, and links without touching code.</p>
                     </div>
                     
                     <!-- Feature 5 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-shield-alt text-green-500 text-xl"></i>
+                            <i class="fas fa-download text-green-500 text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">Enterprise Security</h3>
-                        <p class="text-subtle">Bank-level security with SSL certificates, regular backups, and DDoS protection.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">Download Anytime</h3>
+                        <p class="text-subtle">Get the complete website files (HTML, CSS, JS) to host anywhere or continue developing locally.</p>
                     </div>
                     
                     <!-- Feature 6 -->
                     <div class="bg-white rounded-xl p-6 shadow-md border border-border hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
-                            <i class="fas fa-headset text-orange-500 text-xl"></i>
+                            <i class="fas fa-code-branch text-orange-500 text-xl"></i>
                         </div>
-                        <h3 class="text-xl font-semibold text-heading mb-3">24/7 Support</h3>
-                        <p class="text-subtle">Get help anytime with our dedicated support team and comprehensive documentation.</p>
+                        <h3 class="text-xl font-semibold text-heading mb-3">Open Source</h3>
+                        <p class="text-subtle">Completely free and open source. Use for personal or commercial projects with full access to code.</p>
                     </div>
                 </div>
             </div>
@@ -260,9 +224,246 @@
 
         <!-- 
         ==========================================================================
+        LIVE EDITOR DEMO SECTION
+        ==========================================================================
+        -->
+        <section id="live-editor" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Try Our Live Editor</h2>
+                    <p class="text-subtle text-lg max-w-2xl mx-auto">See how easy it is to build your website. Edit the form and watch the preview update in real-time!</p>
+                </div>
+                
+                <div class="max-w-6xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg border border-border overflow-hidden">
+                        <div class="bg-gray-50 px-6 py-4 border-b border-border">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="ml-4 text-sm text-gray-600 font-mono">OpenWeb Starter - Live Editor</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid lg:grid-cols-2 gap-0 min-h-96">
+                            <!-- Editor Panel -->
+                            <div class="p-6 bg-gray-50 border-r border-border">
+                                <h3 class="text-lg font-semibold mb-4 text-gray-800">Edit Your Website</h3>
+                                <form id="live-editor-form" class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                        <input type="text" id="editor-name" value="John Doe" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                                        <input type="text" id="editor-title" value="Web Developer" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                                        <textarea id="editor-bio" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">Passionate developer creating amazing web experiences</textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        <input type="email" id="editor-email" value="john@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Theme Color</label>
+                                        <input type="color" id="editor-color" value="#3b82f6" class="w-full h-10 border border-gray-300 rounded-lg focus:outline-none">
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Preview Panel -->
+                            <div class="p-6 bg-white">
+                                <h3 class="text-lg font-semibold mb-4 text-gray-800">Live Preview</h3>
+                                <div id="live-preview" class="border border-gray-200 rounded-lg p-4 min-h-80">
+                                    <div class="text-center">
+                                        <div class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+                                            <i class="fas fa-user text-white text-xl"></i>
+                                        </div>
+                                        <h2 id="preview-name" class="text-xl font-bold text-gray-800 mb-1">John Doe</h2>
+                                        <p id="preview-title" class="text-primary font-medium mb-3">Web Developer</p>
+                                        <p id="preview-bio" class="text-gray-600 text-sm mb-4">Passionate developer creating amazing web experiences</p>
+                                        <a id="preview-email" href="mailto:john@example.com" class="inline-flex items-center text-primary hover:underline text-sm">
+                                            <i class="fas fa-envelope mr-2"></i>
+                                            john@example.com
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="px-6 py-4 bg-gray-50 border-t border-border">
+                            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                                <a href="template-editor.html" class="bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/80 transition-colors font-medium text-center">
+                                    <i class="fas fa-edit mr-2"></i>
+                                    Edit Full Template
+                                </a>
+                                <button class="bg-secondary text-white py-2 px-6 rounded-lg hover:bg-secondary/80 transition-colors font-medium">
+                                    <i class="fas fa-download mr-2"></i>
+                                    Download Website
+                                </button>
+                                <button class="bg-accent text-white py-2 px-6 rounded-lg hover:bg-accent/80 transition-colors font-medium">
+                                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                                    Deploy Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ==========================================================================
+        TEMPLATE SELECTION SECTION
+        ==========================================================================
+        -->
+        <section id="templates" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Choose Your Template</h2>
+                    <p class="text-subtle text-lg max-w-2xl mx-auto">Select from our collection of professional templates. All are customizable via config.js</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Portfolio Template -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                            <i class="fas fa-user text-white text-4xl"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Portfolio</h3>
+                            <p class="text-gray-600 mb-4">Perfect for designers, developers, and creatives to showcase their work.</p>
+                            <div class="flex gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Projects</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Skills</span>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Contact</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary/80 transition-colors">
+                                <i class="fas fa-edit mr-2"></i>
+                                <a href="template-editor.html" class="text-white no-underline">Edit in Browser</a>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Resume Template -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+                            <i class="fas fa-file-alt text-white text-4xl"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Resume</h3>
+                            <p class="text-gray-600 mb-4">Professional resume layout with experience, education, and skills.</p>
+                            <div class="flex gap-2 mb-4">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Experience</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Education</span>
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Skills</span>
+                            </div>
+                            <button class="w-full bg-secondary text-white py-2 px-4 rounded-lg hover:bg-secondary/80 transition-colors">
+                                <i class="fas fa-edit mr-2"></i>
+                                <a href="template-editor.html" class="text-white no-underline">Edit in Browser</a>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Landing Page Template -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                            <i class="fas fa-rocket text-white text-4xl"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Landing Page</h3>
+                            <p class="text-gray-600 mb-4">Clean landing page for products, services, or personal branding.</p>
+                            <div class="flex gap-2 mb-4">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Hero</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Features</span>
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">CTA</span>
+                            </div>
+                            <button class="w-full bg-accent text-white py-2 px-4 rounded-lg hover:bg-accent/80 transition-colors">
+                                <i class="fas fa-edit mr-2"></i>
+                                <a href="template-editor.html" class="text-white no-underline">Edit in Browser</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ==========================================================================
         HOW IT WORKS SECTION
         ==========================================================================
         -->
+        <section class="py-20 bg-card">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">How It Works</h2>
+                    <p class="text-subtle text-lg max-w-2xl mx-auto">Build and launch your website in 3 simple steps - all in your browser!</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Step 1 -->
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-xl">1</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3">Choose Template</h3>
+                            <p class="text-subtle mb-4">Select from our collection of professional templates. Portfolio, resume, or landing page.</p>
+                            <div class="bg-white border border-gray-200 p-3 rounded-lg">
+                                <div class="flex justify-center gap-2">
+                                    <div class="w-6 h-4 bg-blue-200 rounded"></div>
+                                    <div class="w-6 h-4 bg-green-200 rounded"></div>
+                                    <div class="w-6 h-4 bg-purple-200 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-xl">2</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3">Edit in Browser</h3>
+                            <p class="text-subtle mb-4">Use our visual editor to update your content. See changes live as you type!</p>
+                            <div class="bg-white border border-gray-200 p-3 rounded-lg">
+                                <div class="text-left text-xs text-gray-600">
+                                    <div class="mb-1">✏️ Name: John Doe</div>
+                                    <div class="mb-1">📧 Email: john@example.com</div>
+                                    <div>📱 Bio: Web Developer...</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-xl">3</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3">Deploy & Share</h3>
+                            <p class="text-subtle mb-4">One-click deploy to hosting platforms or download the complete website files.</p>
+                            <div class="bg-white border border-gray-200 p-3 rounded-lg">
+                                <div class="flex justify-center gap-1 text-xs">
+                                    <span class="bg-gray-800 text-white px-2 py-1 rounded">GitHub</span>
+                                    <span class="bg-teal-500 text-white px-2 py-1 rounded">Netlify</span>
+                                    <span class="bg-black text-white px-2 py-1 rounded">Vercel</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-12">
+                        <div class="bg-gradient-to-r from-primary to-secondary text-white py-3 px-8 rounded-lg inline-block">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-clock"></i>
+                                <span class="font-medium">Average build time: 5 minutes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -415,40 +616,39 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-lg font-bold mb-4">BuildEase</h3>
-                    <p class="text-gray-400 text-sm">Building the future of web development with AI-powered tools and intuitive design.</p>
+                    <h3 class="text-lg font-bold mb-4">OpenWeb Starter</h3>
+                    <p class="text-gray-400 text-sm">Simple, customizable, open-source website templates. Perfect for portfolios, resumes, and landing pages.</p>
                 </div>
                 <div>
-                    <h4 class="text-base font-semibold mb-4">Pages</h4>
+                    <h4 class="text-base font-semibold mb-4">Templates</h4>
                     <ul class="space-y-2">
-                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors text-sm">Home</a></li>
-                        <li><a href="about/about.html" class="text-gray-400 hover:text-white transition-colors text-sm">About</a></li>
-                        <li><a href="services/services.html" class="text-gray-400 hover:text-white transition-colors text-sm">Services</a></li>
-                        <li><a href="contact/contact.html" class="text-gray-400 hover:text-white transition-colors text-sm">Contact</a></li>
-                        <li><a href="login/login.html" class="text-gray-400 hover:text-white transition-colors text-sm">Get Started</a></li>
+                        <li><a href="#templates" class="text-gray-400 hover:text-white transition-colors text-sm">Portfolio</a></li>
+                        <li><a href="#templates" class="text-gray-400 hover:text-white transition-colors text-sm">Resume</a></li>
+                        <li><a href="#templates" class="text-gray-400 hover:text-white transition-colors text-sm">Landing Page</a></li>
+                        <li><a href="#templates" class="text-gray-400 hover:text-white transition-colors text-sm">Business</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-base font-semibold mb-4">Resources</h4>
                     <ul class="space-y-2">
+                        <li><a href="#quick-setup" class="text-gray-400 hover:text-white transition-colors text-sm">Quick Setup</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Documentation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Examples</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Support</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">API Status</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-base font-semibold mb-4">Connect</h4>
+                    <h4 class="text-base font-semibold mb-4">Community</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Twitter</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">LinkedIn</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Facebook</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Instagram</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">GitHub</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Discussions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Issues</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Contribute</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-400 text-sm">&copy; 2025 BuildEase. All Rights Reserved.</p>
+                <p class="text-gray-400 text-sm">&copy; 2025 OpenWeb Starter. Open Source under MIT License.</p>
             </div>
         </div>
     </footer>
@@ -552,5 +752,6 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script src="config.js"></script>
 </body>
 </html>
