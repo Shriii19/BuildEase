@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | OpenWeb Starter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-background font-sans text-text">
+    
+    <!-- Header -->
+    <header class="bg-card shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-heading flex items-center">
+                <i class="fas fa-code text-accent mr-2"></i>
+                <span>OpenWeb Starter</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="text-subtle hover:text-primary transition-colors font-medium">Home</a>
+                <a href="about.html" class="text-subtle hover:text-primary transition-colors font-medium">About</a>
+                <a href="services.html" class="text-subtle hover:text-primary transition-colors font-medium">Services</a>
+                <a href="pricing.html" class="text-primary font-medium">Pricing</a>
+                <a href="contact.html" class="text-subtle hover:text-primary transition-colors font-medium">Contact</a>
+                
+                <a href="template-editor.html" class="bg-primary text-white py-2 px-4 rounded-lg hover:bg-primaryHover transition-colors font-medium">
+                    Start Building
+                </a>
+            </div>
+            
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-subtle hover:bg-gray-100 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-20 md:py-32 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-heading mb-6">Simple, Transparent Pricing</h1>
+                <p class="text-xl text-subtle max-w-3xl mx-auto mb-8">
+                    Choose the plan that fits your needs. Start free and upgrade as you grow.
+                </p>
+                
+                <!-- Billing Toggle -->
+                <div class="flex items-center justify-center mb-12">
+                    <span class="text-subtle mr-3">Monthly</span>
+                    <div class="relative">
+                        <input type="checkbox" id="billing-toggle" class="sr-only" checked>
+                        <label for="billing-toggle" class="flex items-center cursor-pointer">
+                            <div class="relative">
+                                <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6"></div>
+                            </div>
+                        </label>
+                    </div>
+                    <span class="text-primary ml-3 font-medium">Yearly <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Save 20%</span></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Plans -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    
+                    <!-- Free Plan -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 relative">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-heading mb-2">Free</h3>
+                            <p class="text-subtle mb-6">Perfect for getting started</p>
+                            <div class="mb-6">
+                                <span class="text-5xl font-bold text-heading">$0</span>
+                                <span class="text-subtle">/month</span>
+                            </div>
+                            <a href="template-editor.html" class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors font-medium block text-center">
+                                Get Started Free
+                            </a>
+                        </div>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>3 websites</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>10+ templates</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Basic customization</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Mobile responsive</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Community support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>OpenWeb Starter branding</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="bg-white rounded-2xl shadow-xl border-2 border-primary p-8 relative transform scale-105">
+                        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                            <span class="bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">Most Popular</span>
+                        </div>
+                        
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-heading mb-2">Pro</h3>
+                            <p class="text-subtle mb-6">For professionals and small teams</p>
+                            <div class="mb-6">
+                                <span class="text-5xl font-bold text-heading monthly-price">$19</span>
+                                <span class="text-5xl font-bold text-heading yearly-price hidden">$15</span>
+                                <span class="text-subtle">/month</span>
+                            </div>
+                            <a href="template-editor.html" class="w-full bg-primary text-white py-3 px-6 rounded-lg hover:bg-primaryHover transition-colors font-medium block text-center">
+                                Start Pro Trial
+                            </a>
+                        </div>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span><strong>Unlimited</strong> websites</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>50+ premium templates</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Advanced customization</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Custom domains</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Remove branding</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Priority support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Analytics integration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>SEO optimization</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 relative">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-heading mb-2">Enterprise</h3>
+                            <p class="text-subtle mb-6">For large teams and organizations</p>
+                            <div class="mb-6">
+                                <span class="text-5xl font-bold text-heading">$99</span>
+                                <span class="text-subtle">/month</span>
+                            </div>
+                            <a href="contact.html" class="w-full bg-secondary text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-medium block text-center">
+                                Contact Sales
+                            </a>
+                        </div>
+                        
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Everything in Pro</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Team collaboration</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Advanced user roles</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Custom integrations</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>API access</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Dedicated support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Custom training</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>SLA guarantee</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Comparison -->
+        <section class="py-20 bg-card">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Feature Comparison</h2>
+                    <p class="text-subtle text-lg">See what's included in each plan</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full bg-white rounded-lg shadow-lg">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left p-6 font-semibold text-heading">Features</th>
+                                <th class="text-center p-6 font-semibold text-heading">Free</th>
+                                <th class="text-center p-6 font-semibold text-primary">Pro</th>
+                                <th class="text-center p-6 font-semibold text-heading">Enterprise</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Number of websites</td>
+                                <td class="text-center p-6">3</td>
+                                <td class="text-center p-6 bg-primary/5">Unlimited</td>
+                                <td class="text-center p-6">Unlimited</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Templates</td>
+                                <td class="text-center p-6">10+</td>
+                                <td class="text-center p-6 bg-primary/5">50+</td>
+                                <td class="text-center p-6">50+ & Custom</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Custom domain</td>
+                                <td class="text-center p-6"><i class="fas fa-times text-red-500"></i></td>
+                                <td class="text-center p-6 bg-primary/5"><i class="fas fa-check text-green-500"></i></td>
+                                <td class="text-center p-6"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Remove branding</td>
+                                <td class="text-center p-6"><i class="fas fa-times text-red-500"></i></td>
+                                <td class="text-center p-6 bg-primary/5"><i class="fas fa-check text-green-500"></i></td>
+                                <td class="text-center p-6"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Analytics</td>
+                                <td class="text-center p-6">Basic</td>
+                                <td class="text-center p-6 bg-primary/5">Advanced</td>
+                                <td class="text-center p-6">Advanced + Custom</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Support</td>
+                                <td class="text-center p-6">Community</td>
+                                <td class="text-center p-6 bg-primary/5">Priority</td>
+                                <td class="text-center p-6">Dedicated</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-6 font-medium">Team collaboration</td>
+                                <td class="text-center p-6"><i class="fas fa-times text-red-500"></i></td>
+                                <td class="text-center p-6 bg-primary/5">5 users</td>
+                                <td class="text-center p-6">Unlimited</td>
+                            </tr>
+                            <tr>
+                                <td class="p-6 font-medium">API access</td>
+                                <td class="text-center p-6"><i class="fas fa-times text-red-500"></i></td>
+                                <td class="text-center p-6 bg-primary/5"><i class="fas fa-times text-red-500"></i></td>
+                                <td class="text-center p-6"><i class="fas fa-check text-green-500"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">Frequently Asked Questions</h2>
+                    <p class="text-subtle text-lg">Everything you need to know about our pricing</p>
+                </div>
+
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">Can I upgrade or downgrade my plan anytime?</h3>
+                        <p class="text-subtle">Yes, you can change your plan at any time. Upgrades take effect immediately, while downgrades take effect at the next billing cycle.</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">Do you offer refunds?</h3>
+                        <p class="text-subtle">We offer a 30-day money-back guarantee for all paid plans. If you're not satisfied, contact us for a full refund.</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">What payment methods do you accept?</h3>
+                        <p class="text-subtle">We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. Enterprise customers can also pay by invoice.</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">Is there a free trial for paid plans?</h3>
+                        <p class="text-subtle">Yes! Pro plans come with a 14-day free trial. No credit card required to start your trial.</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">How does billing work?</h3>
+                        <p class="text-subtle">You'll be charged monthly or yearly depending on your chosen plan. All charges are automatically processed on your billing date.</p>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="font-semibold text-heading mb-3">Can I cancel anytime?</h3>
+                        <p class="text-subtle">Absolutely! You can cancel your subscription at any time from your account settings. Your plan will remain active until the end of your billing period.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-gradient-to-r from-primary to-secondary text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Start Building?</h2>
+                <p class="text-xl mb-8 opacity-90">Join thousands of creators who trust OpenWeb Starter</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="template-editor.html" class="bg-white text-primary py-3 px-8 rounded-lg text-lg hover:bg-gray-100 transition-colors shadow-lg font-medium">
+                        Start Free Today
+                    </a>
+                    <a href="contact.html" class="border-2 border-white text-white py-3 px-8 rounded-lg text-lg hover:bg-white hover:text-primary transition-colors font-medium">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-heading text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">OpenWeb Starter</h3>
+                    <p class="text-gray-400 text-sm">Empowering everyone to build professional websites without coding.</p>
+                </div>
+                <div>
+                    <h4 class="text-base font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="template-editor.html" class="text-gray-400 hover:text-white transition-colors text-sm">Templates</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-white transition-colors text-sm">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-white transition-colors text-sm">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-base font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors text-sm">About</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors text-sm">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-base font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Documentation</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors text-sm">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">&copy; 2025 OpenWeb Starter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Billing toggle functionality
+        const billingToggle = document.getElementById('billing-toggle');
+        const monthlyPrices = document.querySelectorAll('.monthly-price');
+        const yearlyPrices = document.querySelectorAll('.yearly-price');
+
+        billingToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Show yearly prices
+                monthlyPrices.forEach(price => price.classList.add('hidden'));
+                yearlyPrices.forEach(price => price.classList.remove('hidden'));
+            } else {
+                // Show monthly prices
+                monthlyPrices.forEach(price => price.classList.remove('hidden'));
+                yearlyPrices.forEach(price => price.classList.add('hidden'));
+            }
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>
