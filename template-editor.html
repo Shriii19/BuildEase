@@ -3,721 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Template Editor | OpenWeb Starter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenWeb Starter - Professional Template Editor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --secondary: #8b5cf6;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        
-        .code-editor {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            min-height: 400px;
-            line-height: 1.5;
-            tab-size: 2;
-        }
-        
-        .preview-frame {
-            border: none;
-            width: 100%;
-            height: 500px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
+
         .template-card {
             transition: all 0.3s ease;
-            cursor: pointer;
             border: 2px solid transparent;
+            position: relative;
             overflow: hidden;
         }
-        
+
         .template-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: #667eea;
         }
-        
-        .template-card.selected {
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        }
-        
-        .editor-panel {
-            display: none;
-        }
-        
-        .editor-panel.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .template-selection-panel {
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .editor-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            border-radius: 12px 12px 0 0;
-        }
-        
-        .preview-header {
-            background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
-            color: white;
-            border-radius: 12px 12px 0 0;
-        }
-        
-        .preview-container {
-            position: relative;
-        }
-        
-        .preview-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 10;
-            border-radius: 8px;
-        }
-        
+
         .template-icon {
-            font-size: 2.5rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
-            opacity: 0.9;
         }
-        
+
         .action-btn {
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
         }
-        
-        .status-live {
-            background-color: #10B981;
+
+        .action-btn:hover::before {
+            left: 100%;
         }
-        
-        .status-offline {
-            background-color: #EF4444;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Enhanced Tutorial and Help System Styles */
-        .tutorial-highlight {
-            animation: pulseHighlight 2s infinite;
-        }
-        
-        @keyframes pulseHighlight {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-        }
-        
-        .tutorial-tooltip {
-            animation: tooltipSlideIn 0.3s ease;
-        }
-        
-        @keyframes tooltipSlideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .pulse-animation {
-            animation: pulseGlow 2s infinite;
-        }
-        
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
-        }
-        
-        /* Enhanced Code Editor Styles */
-        .code-editor {
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            min-height: 400px;
-            line-height: 1.6;
-            tab-size: 2;
-            position: relative;
-        }
-        
-        .code-editor:focus {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-        
-        /* Help Panel Styles */
-        .help-item {
-            padding: 12px;
-            border-radius: 8px;
-            background: #f8fafc;
-            border-left: 3px solid #3b82f6;
-        }
-        
-        .help-item strong {
-            color: #1e40af;
-        }
-        
-        kbd {
-            background: #e5e7eb;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            padding: 2px 6px;
-            font-size: 0.8em;
-            font-family: monospace;
-        }
-        
-        /* Enhanced Button Styles */
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+
+        .editor-panel {
+            opacity: 0;
+            transform: translateY(20px);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
+
+        .editor-panel.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        /* Status Indicator Enhancements */
-        .status-indicator {
-            animation: slideInLeft 0.3s ease;
-        }
-        
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        /* Loading Animation */
-        .loading-spinner {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Enhanced Notification Styles */
-        .notification {
+
+        .floating-toolbar {
+            position: sticky;
+            top: 80px;
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
         }
-        
-        /* Responsive Improvements */
-        @media (max-width: 768px) {
-            .help-panel {
-                width: calc(100vw - 32px);
-                right: 16px;
-                left: 16px;
-                bottom: 80px;
-            }
-            
-            .tutorial-tooltip {
-                max-width: calc(100vw - 32px);
-                left: 16px !important;
-                right: 16px;
-            }
-            
-            .code-editor {
-                font-size: 14px;
-                padding: 16px;
-            }
-        }
-        
-        /* Accessibility Improvements */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Focus management */
-        .focus-visible {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-        }
-        
-        /* Enhanced template card hover effects */
-        .template-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            border: 2px solid transparent;
-            overflow: hidden;
+
+        .status-indicator {
             position: relative;
         }
-        
-        .template-card::before {
+
+        .status-indicator::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .gradient-border {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 2px;
+            border-radius: 12px;
+        }
+
+        .gradient-border > div {
+            background: white;
+            border-radius: 10px;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.6s;
         }
-        
-        .template-card:hover::before {
-            left: 100%;
-        }
-        
-        .template-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-        
-        /* Progress bar for tutorial */
-        #tutorial-progress {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
-        }
-        
-        .highlight:after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .highlight.active:after {
-            transform: scaleX(1);
-        }
-        
+
         .notification {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 15px 25px;
-            border-radius: 10px;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
             color: white;
-            font-weight: 500;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            z-index: 100;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-        
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .notification-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .notification-error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-        
-        .btn-icon {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateX(400px);
             transition: transform 0.3s ease;
+            z-index: 1000;
         }
-        
-        .btn-icon:hover {
-            transform: scale(1.1);
+
+        .notification.show {
+            transform: translateX(0);
         }
-        
-        .deploy-option {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+
+        .template-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
-        
-        .deploy-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+
+        .feature-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
-        
-        .preview-loading {
+
+        .difficulty-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .difficulty-beginner {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .difficulty-intermediate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .difficulty-advanced {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .category-badge {
+            background: #f3e8ff;
+            color: #7c3aed;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
             display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(59, 130, 246, 0.2);
-            border-radius: 50%;
-            border-top: 5px solid var(--primary);
-            animation: spin 1s linear infinite;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .time-estimate {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        #code-editor {
+            font-family: 'Courier New', monospace;
+            resize: none;
+            tab-size: 2;
+        }
+
+        .preview-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        #preview-frame {
+            border: none;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
-    
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-gray-800 flex items-center">
-                <i class="fas fa-code text-blue-500 mr-2"></i>
-                <span>OpenWeb Starter</span>
-            </a>
-            
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="index.html" class="text-gray-600 hover:text-blue-500 transition-colors font-medium highlight">Home</a>
-                <a href="about.html" class="text-gray-600 hover:text-blue-500 transition-colors font-medium highlight">About</a>
-                <a href="services.html" class="text-gray-600 hover:text-blue-500 transition-colors font-medium highlight">Services</a>
-                <a href="pricing.html" class="text-gray-600 hover:text-blue-500 transition-colors font-medium highlight">Pricing</a>
-                <a href="contact.html" class="text-gray-600 hover:text-blue-500 transition-colors font-medium highlight">Contact</a>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <button id="deploy-btn" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-medium action-btn hidden">
-                    <i class="fas fa-cloud-upload-alt mr-2"></i>
-                    Deploy
-                </button>
-                <button id="download-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-medium action-btn hidden">
-                    <i class="fas fa-download mr-2"></i>
-                    Download
-                </button>
+<body>
+    <!-- Navigation -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        OpenWeb Starter
+                    </a>
+                    <span class="text-gray-400">|</span>
+                    <span class="text-gray-600 font-medium">Template Editor</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="status-indicator text-sm text-gray-600">
+                        <i class="fas fa-circle text-green-500 mr-1"></i>
+                        Ready
+                    </span>
+                    <a href="index.html" class="text-gray-600 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-home mr-1"></i>
+                        Home
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
-    
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle mr-2"></i>
-        <span>Project saved successfully!</span>
-    </div>
     
     <main class="container mx-auto px-6 py-8">
         
         <!-- Template Selection Panel -->
         <div id="template-selection" class="template-selection-panel">
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-800 mb-4">Choose Your Template</h1>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Select a template to start editing. Customize every aspect to create your perfect website. All templates are fully responsive and SEO-friendly.</p>
+                <h1 class="text-4xl font-bold text-white mb-4">
+                    <i class="fas fa-magic mr-3"></i>
+                    Choose Your Template
+                </h1>
+                <p class="text-white text-lg max-w-2xl mx-auto opacity-90">
+                    Select a professional template to start building your website. Each template is carefully crafted with modern design principles and best practices.
+                </p>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
                 
                 <!-- Portfolio Template -->
-                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="portfolio">
-                    <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="portfolio">
+                    <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                    <div class="h-40 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                         <div class="template-icon text-white">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user-tie"></i>
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-xl font-semibold mb-2">Portfolio Template</h3>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Popular</span>
+                        <div class="category-badge">Personal</div>
+                        <h3 class="text-xl font-semibold mb-2">Professional Portfolio</h3>
+                        <p class="text-gray-600 mb-3 text-sm">Perfect for showcasing your work and skills with a modern, professional design.</p>
+                        <div class="time-estimate">
+                            <i class="fas fa-clock mr-1"></i>
+                            Estimated time: 15 minutes
                         </div>
-                        <p class="text-gray-600 mb-4">Perfect for showcasing your work, projects, and skills. Includes sections for about, projects, and contact.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">About</span>
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Projects</span>
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Contact</span>
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Responsive</span>
+                        <div class="template-features">
+                            <span class="feature-tag">Responsive Design</span>
+                            <span class="feature-tag">Modern Layout</span>
+                            <span class="feature-tag">Contact Forms</span>
+                            <span class="feature-tag">Project Gallery</span>
                         </div>
-                        <button class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2.5 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-colors font-medium select-template-btn action-btn">
+                        <button class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all font-medium select-template-btn action-btn">
                             <i class="fas fa-edit mr-2"></i>
-                            Customize Template
+                            Start Editing
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Business Template -->
+                <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="business">
+                    <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+                    <div class="h-40 bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                        <div class="template-icon text-white">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="category-badge">Business</div>
+                        <h3 class="text-xl font-semibold mb-2">Business Website</h3>
+                        <p class="text-gray-600 mb-3 text-sm">Professional business presence with all essential sections for company websites.</p>
+                        <div class="time-estimate">
+                            <i class="fas fa-clock mr-1"></i>
+                            Estimated time: 20 minutes
+                        </div>
+                        <div class="template-features">
+                            <span class="feature-tag">Company Info</span>
+                            <span class="feature-tag">Services</span>
+                            <span class="feature-tag">Team Section</span>
+                            <span class="feature-tag">Testimonials</span>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all font-medium select-template-btn action-btn">
+                            <i class="fas fa-edit mr-2"></i>
+                            Start Editing
                         </button>
                     </div>
                 </div>
                 
                 <!-- Resume Template -->
-                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="resume">
-                    <div class="h-48 bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center">
+                <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="resume">
+                    <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                    <div class="h-40 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
                         <div class="template-icon text-white">
                             <i class="fas fa-file-alt"></i>
                         </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Resume Template</h3>
-                        <p class="text-gray-600 mb-4">Professional resume layout with sections for experience, education, skills, and achievements.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Experience</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Education</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Skills</span>
-                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Print-Ready</span>
+                        <div class="category-badge">Career</div>
+                        <h3 class="text-xl font-semibold mb-2">Digital Resume</h3>
+                        <p class="text-gray-600 mb-3 text-sm">Stand out with a modern online resume that works great both online and in print.</p>
+                        <div class="time-estimate">
+                            <i class="fas fa-clock mr-1"></i>
+                            Estimated time: 10 minutes
                         </div>
-                        <button class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-2.5 px-4 rounded-lg hover:from-green-600 hover:to-teal-700 transition-colors font-medium select-template-btn action-btn">
+                        <div class="template-features">
+                            <span class="feature-tag">ATS Friendly</span>
+                            <span class="feature-tag">Print Ready</span>
+                            <span class="feature-tag">Contact Links</span>
+                            <span class="feature-tag">Skills Section</span>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 px-4 rounded-lg hover:from-purple-600 hover:to-pink-700 transition-all font-medium select-template-btn action-btn">
                             <i class="fas fa-edit mr-2"></i>
-                            Customize Template
+                            Start Editing
                         </button>
                     </div>
                 </div>
                 
                 <!-- Landing Page Template -->
-                <div class="template-card bg-white rounded-xl shadow-md overflow-hidden" data-template="landing">
-                    <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                <div class="template-card bg-white rounded-xl shadow-lg overflow-hidden" data-template="landing">
+                    <div class="difficulty-badge difficulty-advanced">Advanced</div>
+                    <div class="h-40 bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
                         <div class="template-icon text-white">
                             <i class="fas fa-rocket"></i>
                         </div>
                     </div>
                     <div class="p-6">
+                        <div class="category-badge">Marketing</div>
                         <h3 class="text-xl font-semibold mb-2">Landing Page</h3>
-                        <p class="text-gray-600 mb-4">Clean landing page template for products, services, or personal branding with call-to-action sections.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Hero</span>
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Features</span>
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">CTA</span>
-                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">Testimonials</span>
+                        <p class="text-gray-600 mb-3 text-sm">High-converting landing page optimized for products, services, and lead generation.</p>
+                        <div class="time-estimate">
+                            <i class="fas fa-clock mr-1"></i>
+                            Estimated time: 25 minutes
                         </div>
-                        <button class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-2.5 px-4 rounded-lg hover:from-purple-600 hover:to-pink-700 transition-colors font-medium select-template-btn action-btn">
+                        <div class="template-features">
+                            <span class="feature-tag">Hero Section</span>
+                            <span class="feature-tag">Features</span>
+                            <span class="feature-tag">CTA Buttons</span>
+                            <span class="feature-tag">Social Proof</span>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 px-4 rounded-lg hover:from-orange-600 hover:to-red-700 transition-all font-medium select-template-btn action-btn">
                             <i class="fas fa-edit mr-2"></i>
-                            Customize Template
+                            Start Editing
                         </button>
                     </div>
                 </div>
                 
             </div>
-            
-            <div class="mt-12 text-center">
-                <p class="text-gray-600 mb-4">Need something more specific?</p>
-                <button class="bg-gray-800 text-white py-2.5 px-6 rounded-lg hover:bg-gray-900 transition-colors font-medium">
-                    <i class="fas fa-plus mr-2"></i>
-                    Request a Custom Template
-                </button>
+
+            <!-- Getting Started Tips -->
+            <div class="mt-12 max-w-4xl mx-auto">
+                <div class="bg-white/10 backdrop-filter backdrop-blur-lg rounded-xl p-6 border border-white/20">
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-yellow-300 text-2xl mt-1 mr-4"></i>
+                        <div>
+                            <h3 class="text-white font-semibold text-lg mb-3">Quick Start Guide</h3>
+                            <div class="grid md:grid-cols-3 gap-4 text-white/90">
+                                <div class="flex items-center">
+                                    <span class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-semibold mr-3">1</span>
+                                    <span>Choose a template that fits your needs</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-semibold mr-3">2</span>
+                                    <span>Customize content, colors, and layout</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-semibold mr-3">3</span>
+                                    <span>Download or deploy your website</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- Editor Panel -->
-        <div id="editor-panel" class="editor-panel">
-            <div class="mb-6">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                            <i class="fas fa-code text-blue-500 mr-2"></i>
-                            Template Editor
-                        </h2>
-                        <p class="text-gray-600 mt-2">Edit your code on the left, see changes instantly on the right ✨</p>
+        <div id="editor-panel" class="editor-panel" style="display: none;">
+            
+            <!-- Floating Toolbar -->
+            <div class="floating-toolbar p-4 mb-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <button id="back-to-templates" 
+                                class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors font-medium action-btn"
+                                title="Go back to template selection">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back to Templates
+                        </button>
+                        
+                        <div class="h-6 w-px bg-gray-300"></div>
+                        
+                        <span class="status-indicator text-sm text-gray-600 font-medium">
+                            <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                            Auto-saving enabled
+                        </span>
                     </div>
-                    <button id="back-to-templates" class="text-gray-600 hover:text-blue-500 flex items-center bg-gray-100 hover:bg-blue-50 px-4 py-2 rounded-lg transition-all duration-300 group">
-                        <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
-                        Change Template
-                    </button>
-                </div>
-                
-                <!-- Enhanced Status Bar -->
-                <div class="mt-4 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-3">
-                    <div class="flex items-center justify-between text-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="flex items-center text-green-700">
-                                <div class="status-dot status-live animate-pulse"></div>
-                                <span class="font-medium">Live Preview Active</span>
-                            </div>
-                            <div class="flex items-center text-blue-700">
-                                <i class="fas fa-save mr-1"></i>
-                                <span>Auto-save enabled</span>
-                            </div>
-                            <div class="flex items-center text-purple-700">
-                                <i class="fas fa-history mr-1"></i>
-                                <span id="last-saved">Last saved: Just now</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2 text-gray-600">
-                            <span class="text-xs">Press</span>
-                            <kbd class="bg-white px-2 py-1 rounded text-xs">?</kbd>
-                            <span class="text-xs">for help</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Quick Start Tips -->
-                <div class="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                    <div class="flex items-start">
-                        <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-3"></i>
-                        <div class="text-sm">
-                            <h4 class="font-semibold text-yellow-800 mb-1">Quick Start Tips:</h4>
-                            <div class="text-yellow-700 flex flex-wrap gap-4">
-                                <span>• Try changing "John Doe" to your name</span>
-                                <span>• Modify colors in the CSS section</span>
-                                <span>• Add your own content and images</span>
-                                <span>• Use Ctrl+Z to undo changes</span>
-                            </div>
-                        </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <button id="reset-code" 
+                                class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors font-medium action-btn"
+                                title="Reset to original template">
+                            <i class="fas fa-undo mr-2"></i>
+                            Reset
+                        </button>
+                        
+                        <button id="save-project" 
+                                class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium action-btn"
+                                title="Save your project">
+                            <i class="fas fa-save mr-2"></i>
+                            Save
+                        </button>
+                        
+                        <button id="download-code" 
+                                class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors font-medium action-btn"
+                                title="Download HTML file">
+                            <i class="fas fa-download mr-2"></i>
+                            Download
+                        </button>
+                        
+                        <button id="deploy-website" 
+                                class="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 px-4 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all font-medium action-btn"
+                                title="Deploy to the web">
+                            <i class="fas fa-rocket mr-2"></i>
+                            Deploy
+                        </button>
                     </div>
                 </div>
             </div>
             
+            <!-- Editor Layout -->
             <div class="grid lg:grid-cols-2 gap-6">
                 
                 <!-- Code Editor -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="editor-header px-6 py-3 flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                            <span class="ml-4 text-sm font-mono text-white">index.html</span>
+                <div class="gradient-border">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-code mr-2 text-blue-600"></i>
+                                HTML Editor
+                            </h3>
+                            <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                <kbd class="bg-gray-100 px-2 py-1 rounded">Ctrl+Z</kbd>
+                                <span>Undo</span>
+                                <span>|</span>
+                                <kbd class="bg-gray-100 px-2 py-1 rounded">Ctrl+S</kbd>
+                                <span>Save</span>
+                            </div>
                         </div>
-                        <div class="flex gap-3">
-                            <button id="reset-code" class="text-sm text-white/90 hover:text-white flex items-center btn-icon" title="Reset to original">
-                                <i class="fas fa-undo mr-1"></i>
-                            </button>
-                            <button id="copy-code" class="text-sm text-white/90 hover:text-white flex items-center btn-icon" title="Copy to clipboard">
-                                <i class="fas fa-copy mr-1"></i>
-                            </button>
-                            <button id="format-code" class="text-sm text-white/90 hover:text-white flex items-center btn-icon" title="Format code">
-                                <i class="fas fa-align-left mr-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <textarea id="code-editor" class="code-editor w-full resize-none border-none outline-none" placeholder="Loading template..."></textarea>
+                        <textarea id="code-editor" 
+                                  class="w-full h-96 p-4 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                                  placeholder="Your template code will appear here...">
+                        </textarea>
                     </div>
                 </div>
                 
                 <!-- Live Preview -->
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                    <div class="preview-header px-6 py-3 flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-                            <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-                            <span class="ml-4 text-sm text-white font-mono">Live Preview</span>
+                <div class="gradient-border">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-eye mr-2 text-green-600"></i>
+                                Live Preview
+                            </h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-gray-600">Live updating</span>
+                            </div>
                         </div>
-                        <div class="text-sm text-white">
-                            <span>Mobile</span>
-                            <span class="mx-2">|</span>
-                            <span class="font-medium">Desktop</span>
-                            <span class="mx-2">|</span>
-                            <span>Tablet</span>
+                        <div class="preview-container bg-white border border-gray-300 rounded-lg">
+                            <iframe id="preview-frame" 
+                                    class="w-full h-96 bg-white"
+                                    sandbox="allow-same-origin allow-scripts">
+                            </iframe>
                         </div>
-                    </div>
-                    <div class="preview-container">
-                        <div id="preview-overlay" class="preview-overlay">
-                            <div class="preview-loading mb-4"></div>
-                            <p class="text-gray-600 font-medium">Loading preview...</p>
-                        </div>
-                        <iframe id="preview-frame" class="preview-frame"></iframe>
                     </div>
                 </div>
                 
             </div>
             
-            <!-- Enhanced Action Buttons with Guidance -->
-            <div class="mt-8">
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Ready to share your website?</h3>
-                    <p class="text-gray-600 text-sm">Choose an action below to deploy, download, or save your work</p>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="deploy-website" 
-                            class="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-8 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 font-medium flex items-center justify-center action-btn group"
-                            title="Deploy your website to a live URL that you can share">
-                        <i class="fas fa-cloud-upload-alt mr-2 group-hover:animate-bounce"></i>
-                        Deploy to Web
-                        <span class="ml-2 text-xs bg-white/20 px-2 py-1 rounded">Live URL</span>
-                    </button>
-                    
-                    <button id="download-code" 
-                            class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 px-8 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 font-medium flex items-center justify-center action-btn group"
-                            title="Download your website as an HTML file">
-                        <i class="fas fa-download mr-2 group-hover:animate-bounce"></i>
-                        Download Code
-                        <span class="ml-2 text-xs bg-white/20 px-2 py-1 rounded">HTML File</span>
-                    </button>
-                    
-                    <button id="save-project" 
-                            class="bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 px-8 rounded-lg hover:from-purple-600 hover:to-pink-700 transition-all duration-300 font-medium flex items-center justify-center action-btn group"
-                            title="Save your progress to continue editing later">
-                        <i class="fas fa-save mr-2 group-hover:animate-pulse"></i>
-                        Save Project
-                        <span class="ml-2 text-xs bg-white/20 px-2 py-1 rounded">Auto-saves</span>
-                    </button>
-                    
-                    <button id="new-project" 
-                            class="bg-gradient-to-r from-gray-600 to-gray-800 text-white py-3 px-8 rounded-lg hover:from-gray-700 hover:to-gray-900 transition-all duration-300 font-medium flex items-center justify-center action-btn group"
-                            title="Start fresh with a new template">
-                        <i class="fas fa-plus mr-2 group-hover:rotate-90 transition-transform"></i>
-                        New Project
-                        <span class="ml-2 text-xs bg-white/20 px-2 py-1 rounded">Fresh Start</span>
-                    </button>
-                </div>
-                
-                <!-- Quick Tips -->
-                <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-2xl mx-auto">
-                    <div class="flex items-start">
-                        <i class="fas fa-lightbulb text-blue-500 mt-1 mr-3"></i>
-                        <div class="text-sm">
-                            <h4 class="font-semibold text-blue-800 mb-1">Quick Tips:</h4>
-                            <ul class="text-blue-700 space-y-1">
-                                <li>• Your project auto-saves every 30 seconds</li>
+            <!-- Pro Tips -->
+            <div class="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6 max-w-4xl mx-auto">
+                <div class="flex items-start">
+                    <i class="fas fa-lightbulb text-blue-500 text-xl mt-1 mr-4"></i>
+                    <div>
+                        <h4 class="font-semibold text-blue-800 mb-3">Pro Tips for Editing</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-blue-700 text-sm">
+                            <ul class="space-y-2">
+                                <li>• Your changes are automatically saved every 30 seconds</li>
                                 <li>• Use <kbd class="bg-white px-1 rounded">Ctrl+Z</kbd> to undo changes</li>
-                                <li>• Download exports a complete HTML file ready for hosting</li>
-                                <li>• Deploy creates a live website you can share immediately</li>
+                                <li>• Customize colors by changing CSS color values</li>
+                            </ul>
+                            <ul class="space-y-2">
+                                <li>• Replace placeholder text with your own content</li>
+                                <li>• Add your own images by updating image URLs</li>
+                                <li>• Preview updates instantly as you type</li>
                             </ul>
                         </div>
                     </div>
@@ -729,709 +526,85 @@
     
     <!-- Deploy Modal -->
     <div id="deploy-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-lg max-w-md w-full">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full transform transition-all">
             <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold">Deploy Your Website</h3>
-                    <button id="close-deploy-modal" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">
+                        <i class="fas fa-rocket mr-2 text-purple-600"></i>
+                        Deploy Your Website
+                    </h3>
+                    <button id="close-deploy-modal" class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-                <p class="text-gray-600 mb-6">Choose where you want to deploy your website:</p>
                 
-                <div class="space-y-4">
-                    <button class="w-full bg-gray-900 text-white py-3 px-4 rounded-lg flex items-center justify-between deploy-option">
+                <p class="text-gray-600 mb-6">Choose how you want to share your website with the world:</p>
+                
+                <div class="space-y-3">
+                    <button class="w-full bg-gray-900 text-white py-3 px-4 rounded-lg flex items-center justify-between hover:bg-gray-800 transition-colors deploy-option">
                         <div class="flex items-center">
                             <i class="fab fa-github mr-3 text-xl"></i>
                             <span>GitHub Pages</span>
                         </div>
                         <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button class="w-full bg-teal-600 text-white py-3 px-4 rounded-lg flex items-center justify-between deploy-option">
+                    
+                    <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg flex items-center justify-between hover:bg-blue-700 transition-colors deploy-option">
                         <div class="flex items-center">
-                            <i class="fas fa-globe mr-3 text-xl"></i>
+                            <i class="fas fa-cloud mr-3 text-xl"></i>
                             <span>Netlify</span>
                         </div>
                         <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button class="w-full bg-black text-white py-3 px-4 rounded-lg flex items-center justify-between deploy-option">
+                    
+                    <button class="w-full bg-orange-600 text-white py-3 px-4 rounded-lg flex items-center justify-between hover:bg-orange-700 transition-colors deploy-option">
                         <div class="flex items-center">
-                            <i class="fas fa-triangle mr-3 text-xl"></i>
+                            <i class="fas fa-server mr-3 text-xl"></i>
                             <span>Vercel</span>
                         </div>
                         <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg flex items-center justify-between deploy-option">
-                        <div class="flex items-center">
-                            <i class="fas fa-server mr-3 text-xl"></i>
-                            <span>Custom Server</span>
-                        </div>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
                 
-                <div class="mt-6 pt-4 border-t">
-                    <button id="close-deploy-modal" class="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-                        Cancel
-                    </button>
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-2"></i>
+                        <p class="text-sm text-blue-700">
+                            Deploy your website for free and get a live URL to share with others.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Project saved successfully!</span>
+        </div>
+    </div>
+
+    <!-- Professional Template Editor JavaScript -->
+    <script src="js/professional-editor.js"></script>
     
+    <!-- Deploy Modal Handler -->
     <script>
-        // Template data
-        const templates = {
-            portfolio: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio | John Doe</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 2rem 0; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.8rem; font-weight: 700; }
-        .nav-links { display: flex; gap: 2rem; }
-        .hero { text-align: center; padding: 5rem 0; }
-        .btn { display: inline-block; background: #f59e0b; color: white; padding: 0.8rem 1.8rem; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        section { padding: 5rem 0; }
-        .section-title { text-align: center; margin-bottom: 3rem; font-size: 2.2rem; }
-        .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-        .project-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: all 0.3s; }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .skills { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-        .skill { background: #e0f2fe; color: #0369a1; padding: 0.5rem 1.2rem; border-radius: 30px; font-weight: 500; }
-        footer { background: #0f172a; color: white; padding: 3rem 0; text-align: center; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">JD</div>
-                <div class="nav-links">
-                    <a href="#about" style="color: white;">About</a>
-                    <a href="#projects" style="color: white;">Projects</a>
-                    <a href="#skills" style="color: white;">Skills</a>
-                    <a href="#contact" style="color: white;">Contact</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+        // Close deploy modal
+        document.getElementById('close-deploy-modal')?.addEventListener('click', () => {
+            const modal = document.getElementById('deploy-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
 
-    <section class="hero">
-        <div class="container">
-            <h1>John Doe</h1>
-            <p class="subtitle">Frontend Developer & UI/UX Designer</p>
-            <p>I create beautiful, functional websites with a focus on user experience</p>
-            <a href="#projects" class="btn mt-4">View My Work</a>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content" style="max-width: 700px; margin: 0 auto; text-align: center;">
-                <p>Hello! I'm John, a passionate frontend developer with 5 years of experience creating modern, responsive websites and web applications. I specialize in HTML, CSS, JavaScript, and React.</p>
-                <p class="mt-4">My approach combines technical expertise with a keen eye for design, ensuring that every project I work on is both functional and visually appealing.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" style="background-color: #f8fafc;">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects">
-                <div class="project-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);"></div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">E-commerce Website</h3>
-                        <p>A modern online store with product filtering, cart functionality, and secure checkout.</p>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);"></div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Task Management App</h3>
-                        <p>A productivity tool for managing tasks with drag-and-drop functionality and due dates.</p>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);"></div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Travel Blog</h3>
-                        <p>A responsive blog platform with category filtering, search, and newsletter subscription.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-title">My Skills</h2>
-            <div class="skills">
-                <div class="skill">HTML5</div>
-                <div class="skill">CSS3</div>
-                <div class="skill">JavaScript</div>
-                <div class="skill">React</div>
-                <div class="skill">Tailwind CSS</div>
-                <div class="skill">UI/UX Design</div>
-                <div class="skill">Responsive Design</div>
-                <div class="skill">Git & GitHub</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" style="background-color: #f8fafc;">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-                <p>Have a project in mind or want to discuss potential opportunities? Feel free to reach out!</p>
-                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
-                    <a href="mailto:contact@example.com" style="color: #3b82f6; text-decoration: none;">contact@example.com</a>
-                    <span>|</span>
-                    <a href="#" style="color: #3b82f6; text-decoration: none;">LinkedIn</a>
-                    <span>|</span>
-                    <a href="#" style="color: #3b82f6; text-decoration: none;">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 John Doe. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>`,
-            resume: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jane Smith | Resume</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; background-color: #f9fafb; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        header { text-align: center; padding: 3rem 0; border-bottom: 2px solid #e5e7eb; }
-        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .contact-info { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
-        section { padding: 2.5rem 0; border-bottom: 1px solid #e5e7eb; }
-        h2 { font-size: 1.8rem; margin-bottom: 1.5rem; color: #1e40af; }
-        .resume-item { margin-bottom: 1.8rem; }
-        .resume-item:last-child { margin-bottom: 0; }
-        .item-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
-        .skills { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-        .skill { background: #dbeafe; color: #1e40af; padding: 0.5rem 1.2rem; border-radius: 30px; }
-        footer { text-align: center; padding: 2rem 0; color: #6b7280; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Jane Smith</h1>
-            <p>Senior Product Designer</p>
-            <div class="contact-info">
-                <span>jane.smith@example.com</span>
-                <span>(123) 456-7890</span>
-                <span>San Francisco, CA</span>
-                <span>linkedin.com/in/janesmith</span>
-            </div>
-        </header>
-        
-        <section id="summary">
-            <h2>Professional Summary</h2>
-            <p>Creative and detail-oriented Product Designer with 8+ years of experience creating user-centered digital products. Proven ability to lead design initiatives from concept to launch, improving user engagement and satisfaction. Adept at collaborating with cross-functional teams to deliver innovative solutions.</p>
-        </section>
-        
-        <section id="experience">
-            <h2>Work Experience</h2>
-            <div class="resume-item">
-                <div class="item-header">
-                    <h3>Senior Product Designer</h3>
-                    <span>2020 - Present</span>
-                </div>
-                <p>Tech Innovations Inc., San Francisco, CA</p>
-                <ul style="margin-top: 0.8rem; padding-left: 1.2rem;">
-                    <li>Lead designer for flagship SaaS product, resulting in 35% increase in user engagement</li>
-                    <li>Implemented design system used across all company products, improving consistency and reducing design time by 40%</li>
-                    <li>Conducted user research and usability testing to inform design decisions</li>
-                </ul>
-            </div>
-            
-            <div class="resume-item">
-                <div class="item-header">
-                    <h3>Product Designer</h3>
-                    <span>2017 - 2020</span>
-                </div>
-                <p>Creative Solutions LLC, New York, NY</p>
-                <ul style="margin-top: 0.8rem; padding-left: 1.2rem;">
-                    <li>Designed mobile applications for clients in finance and healthcare industries</li>
-                    <li>Created wireframes, prototypes, and high-fidelity designs using Figma and Sketch</li>
-                    <li>Collaborated with developers to ensure accurate implementation of designs</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section id="education">
-            <h2>Education</h2>
-            <div class="resume-item">
-                <div class="item-header">
-                    <h3>MFA in Design</h3>
-                    <span>2015 - 2017</span>
-                </div>
-                <p>School of Visual Arts, New York, NY</p>
-            </div>
-            
-            <div class="resume-item">
-                <div class="item-header">
-                    <h3>BFA in Graphic Design</h3>
-                    <span>2011 - 2015</span>
-                </div>
-                <p>Rhode Island School of Design, Providence, RI</p>
-            </div>
-        </section>
-        
-        <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills">
-                <div class="skill">UI/UX Design</div>
-                <div class="skill">Figma</div>
-                <div class="skill">Sketch</div>
-                <div class="skill">Adobe Creative Suite</div>
-                <div class="skill">User Research</div>
-                <div class="skill">Prototyping</div>
-                <div class="skill">Design Systems</div>
-                <div class="skill">HTML/CSS</div>
-            </div>
-        </section>
-        
-        <footer>
-            <p>References available upon request</p>
-        </footer>
-    </div>
-</body>
-</html>`,
-            landing: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppName | Modern Solution for Your Business</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        header { padding: 1.5rem 0; }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
-        .hero { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 6rem 0; text-align: center; }
-        .hero-content { max-width: 700px; margin: 0 auto; }
-        h1 { font-size: 3.2rem; margin-bottom: 1.5rem; }
-        .btn { display: inline-block; background: #fbbf24; color: #1e293b; padding: 1rem 2.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        section { padding: 5rem 0; }
-        .section-title { text-align: center; margin-bottom: 3.5rem; font-size: 2.3rem; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
-        .feature { text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .feature-icon { font-size: 3rem; color: #4f46e5; margin-bottom: 1.5rem; }
-        .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .testimonial { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .testimonial-content { margin-bottom: 1.5rem; }
-        .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .pricing-card { background: white; border-radius: 12px; padding: 2.5rem; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .pricing-card.featured { border: 2px solid #4f46e5; transform: scale(1.05); }
-        .price { font-size: 2.8rem; font-weight: 700; margin: 1.5rem 0; color: #1e293b; }
-        .cta { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: white; padding: 6rem 0; text-align: center; }
-        footer { background: #0f172a; color: white; padding: 3rem 0; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">AppName</div>
-                <div>
-                    <a href="#" class="btn" style="background: #e0f2fe; color: #0ea5e9;">Sign In</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-    
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Transform Your Business with Our Solution</h1>
-                <p style="font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Powerful, easy-to-use platform that helps you streamline operations and boost productivity</p>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <a href="#" class="btn">Get Started</a>
-                    <a href="#" class="btn" style="background: transparent; border: 2px solid white;">View Demo</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="features">
-        <div class="container">
-            <h2 class="section-title">Why Choose Us</h2>
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Lightning Fast</h3>
-                    <p>Our platform is optimized for speed and performance, ensuring a seamless experience.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Secure & Reliable</h3>
-                    <p>Enterprise-grade security protects your data with 99.9% uptime guarantee.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3 style="font-size: 1.4rem; margin-bottom: 1rem;">Easy Integration</h3>
-                    <p>Connect with your favorite tools and services in just a few clicks.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="testimonials" style="background-color: #f8fafc;">
-        <div class="container">
-            <h2 class="section-title">What Our Customers Say</h2>
-            <div class="testimonials">
-                <div class="testimonial">
-                    <div class="testimonial-content">
-                        <p>"This platform has completely transformed how we manage our projects. The time savings alone are worth the investment."</p>
-                    </div>
-                    <div>
-                        <p style="font-weight: 600;">Sarah Johnson</p>
-                        <p style="color: #64748b;">CEO, TechStart Inc.</p>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <div class="testimonial-content">
-                        <p>"The intuitive interface and powerful features have helped our team collaborate better than ever before. Highly recommended!"</p>
-                    </div>
-                    <div>
-                        <p style="font-weight: 600;">Michael Chen</p>
-                        <p style="color: #64748b;">Product Manager, InnovateCo</p>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <div class="testimonial-content">
-                        <p>"We've tried several solutions, but none compare to the flexibility and reliability of this platform. It's been a game-changer."</p>
-                    </div>
-                    <div>
-                        <p style="font-weight: 600;">Alexandra Park</p>
-                        <p style="color: #64748b;">Operations Director, Global Solutions</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="pricing">
-        <div class="container">
-            <h2 class="section-title">Simple, Transparent Pricing</h2>
-            <div class="pricing">
-                <div class="pricing-card">
-                    <h3>Starter</h3>
-                    <div class="price">$19<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                    <ul style="list-style: none; margin: 1.5rem 0; text-align: left;">
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Up to 5 users</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Basic features</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> 5GB storage</li>
-                    </ul>
-                    <a href="#" class="btn" style="width: 100%; background: #e2e8f0; color: #1e293b;">Get Started</a>
-                </div>
-                <div class="pricing-card featured">
-                    <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #4f46e5; color: white; padding: 0.3rem 1.5rem; border-radius: 20px; font-size: 0.9rem;">Most Popular</div>
-                    <h3>Professional</h3>
-                    <div class="price">$49<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                    <ul style="list-style: none; margin: 1.5rem 0; text-align: left;">
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Up to 20 users</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Advanced features</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Priority support</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> 50GB storage</li>
-                    </ul>
-                    <a href="#" class="btn" style="width: 100%;">Get Started</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">$99<span style="font-size: 1rem; color: #64748b;">/month</span></div>
-                    <ul style="list-style: none; margin: 1.5rem 0; text-align: left;">
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Unlimited users</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> All features</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> Dedicated account manager</li>
-                        <li style="padding: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 0.5rem;"></i> 500GB storage</li>
-                    </ul>
-                    <a href="#" class="btn" style="width: 100%; background: #e2e8f0; color: #1e293b;">Get Started</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section class="cta">
-        <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Ready to Get Started?</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">Join thousands of satisfied customers and transform your business today.</p>
-            <a href="#" class="btn" style="background: white; color: #0ea5e9;">Create Free Account</a>
-        </div>
-    </section>
-    
-    <footer>
-        <div class="container">
-            <div style="text-align: center;">
-                <div class="logo" style="margin-bottom: 1.5rem; color: white;">AppName</div>
-                <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 2rem;">
-                    <a href="#" style="color: white;">Home</a>
-                    <a href="#" style="color: white;">Features</a>
-                    <a href="#" style="color: white;">Pricing</a>
-                    <a href="#" style="color: white;">About</a>
-                    <a href="#" style="color: white;">Contact</a>
-                </div>
-                <div style="display: flex; gap: 1.5rem; justify-content: center; font-size: 1.4rem;">
-                    <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
-                    <a href="#" style="color: white;"><i class="fab fa-facebook"></i></a>
-                    <a href="#" style="color: white;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" style="color: white;"><i class="fab fa-linkedin"></i></a>
-                </div>
-                <p style="margin-top: 2rem; color: #cbd5e1;">&copy; 2023 AppName. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>`
-        };
-
-        // DOM Elements
-        const templateSelection = document.getElementById('template-selection');
-        const editorPanel = document.getElementById('editor-panel');
-        const templateCards = document.querySelectorAll('.template-card');
-        const selectTemplateBtns = document.querySelectorAll('.select-template-btn');
-        const backToTemplatesBtn = document.getElementById('back-to-templates');
-        const codeEditor = document.getElementById('code-editor');
-        const previewFrame = document.getElementById('preview-frame');
-        const previewOverlay = document.getElementById('preview-overlay');
-        const resetCodeBtn = document.getElementById('reset-code');
-        const copyCodeBtn = document.getElementById('copy-code');
-        const formatCodeBtn = document.getElementById('format-code');
-        const deployWebsiteBtn = document.getElementById('deploy-website');
-        const downloadCodeBtn = document.getElementById('download-code');
-        const saveProjectBtn = document.getElementById('save-project');
-        const newProjectBtn = document.getElementById('new-project');
-        const deployModal = document.getElementById('deploy-modal');
-        const closeDeployModal = document.getElementById('close-deploy-modal');
-        const notification = document.getElementById('notification');
-        
-        // State
-        let currentTemplate = null;
-        let originalTemplateCode = '';
-        
-        // Initialize
-        function init() {
-            // Add event listeners
-            selectTemplateBtns.forEach(btn => {
-                btn.addEventListener('click', selectTemplate);
+        // Deploy options
+        document.querySelectorAll('.deploy-option').forEach(button => {
+            button.addEventListener('click', () => {
+                const platform = button.querySelector('span').textContent;
+                alert(`Deploying to ${platform}! This feature will be available soon.`);
             });
-            
-            templateCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    templateCards.forEach(c => c.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
-            });
-            
-            backToTemplatesBtn.addEventListener('click', showTemplateSelection);
-            codeEditor.addEventListener('input', updatePreview);
-            resetCodeBtn.addEventListener('click', resetCode);
-            copyCodeBtn.addEventListener('click', copyCode);
-            formatCodeBtn.addEventListener('click', formatCode);
-            deployWebsiteBtn.addEventListener('click', showDeployModal);
-            closeDeployModal.addEventListener('click', hideDeployModal);
-            downloadCodeBtn.addEventListener('click', downloadCode);
-            saveProjectBtn.addEventListener('click', saveProject);
-            newProjectBtn.addEventListener('click', newProject);
-            
-            // Check if we're coming back to a saved project
-            const savedTemplate = localStorage.getItem('currentTemplate');
-            const savedCode = localStorage.getItem('savedCode');
-            
-            if (savedTemplate && savedCode) {
-                currentTemplate = savedTemplate;
-                showEditorPanel();
-                codeEditor.value = savedCode;
-                updatePreview();
-            }
-        }
-        
-        // Template selection
-        function selectTemplate(e) {
-            const templateCard = e.target.closest('.template-card');
-            if (!templateCard) return;
-            
-            currentTemplate = templateCard.dataset.template;
-            showEditorPanel();
-            
-            // Set template code
-            if (templates[currentTemplate]) {
-                codeEditor.value = templates[currentTemplate];
-                originalTemplateCode = templates[currentTemplate];
-                updatePreview();
-            }
-        }
-        
-        // Show editor panel
-        function showEditorPanel() {
-            templateSelection.style.display = 'none';
-            editorPanel.classList.add('active');
-            document.getElementById('deploy-btn').style.display = 'inline-block';
-            document.getElementById('download-btn').style.display = 'inline-block';
-        }
-        
-        // Show template selection
-        function showTemplateSelection() {
-            editorPanel.classList.remove('active');
-            templateSelection.style.display = 'block';
-            document.getElementById('deploy-btn').style.display = 'none';
-            document.getElementById('download-btn').style.display = 'none';
-            templateCards.forEach(card => card.classList.remove('selected'));
-        }
-        
-        // Update preview
-        function updatePreview() {
-            previewOverlay.style.display = 'flex';
-            const code = codeEditor.value;
-            
-            // Save to local storage
-            localStorage.setItem('currentTemplate', currentTemplate);
-            localStorage.setItem('savedCode', code);
-            
-            // Update preview after a small delay to allow rendering
-            setTimeout(() => {
-                const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-                previewDoc.open();
-                previewDoc.write(code);
-                previewDoc.close();
-                
-                // Hide loading overlay after the iframe loads
-                previewFrame.onload = function() {
-                    previewOverlay.style.display = 'none';
-                };
-            }, 300);
-        }
-        
-        // Reset code to original template
-        function resetCode() {
-            if (confirm('Are you sure you want to reset to the original template? All your changes will be lost.')) {
-                codeEditor.value = originalTemplateCode;
-                updatePreview();
-            }
-        }
-        
-        // Copy code to clipboard
-        function copyCode() {
-            codeEditor.select();
-            document.execCommand('copy');
-            
-            // Show notification
-            showNotification('Code copied to clipboard!', 'success');
-        }
-        
-        // Format code
-        function formatCode() {
-            // Simple formatting - in a real app, you'd use a proper formatter
-            let formatted = codeEditor.value
-                .replace(/\n\s*\n/g, '\n') // Remove empty lines
-                .replace(/>\s+</g, '><') // Remove spaces between tags
-                .replace(/\s{2,}/g, ' '); // Remove extra spaces
-            
-            codeEditor.value = formatted;
-            updatePreview();
-            showNotification('Code formatted successfully', 'success');
-        }
-        
-        // Show deploy modal
-        function showDeployModal() {
-            deployModal.style.display = 'flex';
-        }
-        
-        // Hide deploy modal
-        function hideDeployModal() {
-            deployModal.style.display = 'none';
-        }
-        
-        // Download code
-        function downloadCode() {
-            const code = codeEditor.value;
-            const blob = new Blob([code], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${currentTemplate}-template.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification('Code downloaded successfully!', 'success');
-        }
-        
-        // Save project
-        function saveProject() {
-            localStorage.setItem('currentTemplate', currentTemplate);
-            localStorage.setItem('savedCode', codeEditor.value);
-            showNotification('Project saved successfully!', 'success');
-        }
-        
-        // New project
-        function newProject() {
-            if (confirm('Are you sure you want to start a new project? All unsaved changes will be lost.')) {
-                localStorage.removeItem('currentTemplate');
-                localStorage.removeItem('savedCode');
-                codeEditor.value = '';
-                showTemplateSelection();
-            }
-        }
-        
-        // Show notification
-        function showNotification(message, type) {
-            notification.querySelector('span').textContent = message;
-            notification.className = 'notification';
-            
-            if (type === 'success') {
-                notification.classList.add('notification-success');
-            } else if (type === 'error') {
-                notification.classList.add('notification-error');
-            }
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+        });
     </script>
-    
-    <!-- Enhanced Template Editor JavaScript -->
-    <script src="js/template-editor.js"></script>
-    <script src="js/editor-helpers.js"></script>
 </body>
 </html>
