@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Template Editor for creating responsive websites">
+    <title>Template Editor | OpenWeb Starter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--primary-color)',
+                        primaryHover: 'var(--primary-hover-color)',
+                        secondary: 'var(--secondary-color)',
+                        background: 'var(--background-color)',
+                        card: 'var(--card-background-color)',
+                        text: 'var(--text-color)',
+                        heading: 'var(--heading-color)',
+                        subtle: 'var(--subtle-text-color)',
+                        border: 'var(--border-color)',
+                        accent: 'var(--accent-color)',
+                    }
+                },
+                fontFamily: {
+                  sans: ['Inter', 'sans-serif'],
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Template Editor Specific Styles */
+        .template-editor-wrapper {
+            min-height: 100vh;
+            background: var(--background-color);
+        }
+
+        .editor-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .editor-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            padding: 1rem 1.5rem;
+        }
+
+        .editor-content {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .template-selection-panel {
+            padding: 3rem 0;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .template-card.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        .template-preview {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .template-card:hover .template-preview::before {
+            left: 100%;
+        }
+
+        .template-icon {
+            font-size: 3rem;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .template-info {
+            padding: 1.5rem;
+        }
+
+        .template-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .template-description {
+            color: var(--subtle-text-color);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .template-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .template-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .template-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .template-button:hover::before {
+            left: 100%;
+        }
+
+        .template-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .editor-panel {
+            display: none;
+            padding: 2rem 0;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .editor-panel.active {
+            display: block;
+        }
+
+        .editor-controls {
+            background: var(--card-background-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            min-height: 600px;
+        }
+
+        .code-panel {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .code-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .window-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .window-control.close { background: #ef4444; }
+        .window-control.minimize { background: #f59e0b; }
+        .window-control.maximize { background: #10b981; }
+
+        .code-title {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .code-action {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .code-action:hover {
+            color: white;
+        }
+
+        .code-editor {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 1.5rem;
+            border: none;
+            outline: none;
+            resize: none;
+            width: 100%;
+            min-height: 500px;
+            tab-size: 2;
+        }
+
+        .code-editor:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        .preview-panel {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .preview-header {
+            background: linear-gradient(135deg, #374151 0%, #6b7280 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            background: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #059669 100%);
+        }
+
+        .action-btn.secondary:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .action-btn.outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .action-btn.outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .status-bar {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--primary-color);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            animation: pulse 2s infinite;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans text-text">
+    
+    <!-- Header -->
+    <header class="bg-card shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-heading flex items-center">
+                <i class="fas fa-code text-accent mr-2"></i>
+                <span>OpenWeb Starter</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="text-subtle hover:text-primary transition-colors font-medium">Home</a>
+                <a href="about.html" class="text-subtle hover:text-primary transition-colors font-medium">About</a>
+                <a href="services.html" class="text-subtle hover:text-primary transition-colors font-medium">Services</a>
+                <a href="pricing.html" class="text-subtle hover:text-primary transition-colors font-medium">Pricing</a>
+                <a href="contact.html" class="text-subtle hover:text-primary transition-colors font-medium">Contact</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button id="deploy-btn" class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors font-medium hidden">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Deploy
+                </button>
+                <button id="download-btn" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primaryHover transition-colors font-medium hidden">
+                    <i class="fas fa-download mr-2"></i>
+                    Download
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="template-editor-wrapper">
+        <div class="editor-container">
+            
+            <!-- Template Selection Panel -->
+            <div id="template-selection" class="template-selection-panel">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold text-heading mb-4 fade-in-up">Choose Your Template</h1>
+                    <p class="text-subtle text-lg max-w-2xl mx-auto">Select a professional template to start building your website. All templates are fully responsive and ready to customize.</p>
+                </div>
+                
+                <div class="template-grid">
+                    <!-- Portfolio Template -->
+                    <div class="template-card" data-template="portfolio">
+                        <div class="template-preview">
+                            <i class="template-icon fas fa-user"></i>
+                        </div>
+                        <div class="template-info">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="template-title">Portfolio Template</h3>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Popular</span>
+                            </div>
+                            <p class="template-description">Perfect for showcasing your work, projects, and skills. Includes sections for about, projects, and contact information.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">About</span>
+                                <span class="template-tag">Projects</span>
+                                <span class="template-tag">Contact</span>
+                                <span class="template-tag">Responsive</span>
+                            </div>
+                            <button class="template-button select-template-btn">
+                                <i class="fas fa-edit mr-2"></i>
+                                Customize Template
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Resume Template -->
+                    <div class="template-card" data-template="resume">
+                        <div class="template-preview" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <i class="template-icon fas fa-file-alt"></i>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Resume Template</h3>
+                            <p class="template-description">Professional resume layout with sections for experience, education, skills, and achievements. Print-ready design.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Experience</span>
+                                <span class="template-tag">Education</span>
+                                <span class="template-tag">Skills</span>
+                                <span class="template-tag">Print-Ready</span>
+                            </div>
+                            <button class="template-button select-template-btn">
+                                <i class="fas fa-edit mr-2"></i>
+                                Customize Template
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Landing Page Template -->
+                    <div class="template-card" data-template="landing">
+                        <div class="template-preview" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                            <i class="template-icon fas fa-rocket"></i>
+                        </div>
+                        <div class="template-info">
+                            <h3 class="template-title">Landing Page</h3>
+                            <p class="template-description">Clean landing page template for products, services, or personal branding with call-to-action sections.</p>
+                            <div class="template-tags">
+                                <span class="template-tag">Hero</span>
+                                <span class="template-tag">Features</span>
+                                <span class="template-tag">CTA</span>
+                                <span class="template-tag">Business</span>
+                            </div>
+                            <button class="template-button select-template-btn">
+                                <i class="fas fa-edit mr-2"></i>
+                                Customize Template
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <p class="text-subtle mb-4">Need something more specific?</p>
+                    <button class="action-btn outline">
+                        <i class="fas fa-plus mr-2"></i>
+                        Request Custom Template
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Editor Panel -->
+            <div id="editor-panel" class="editor-panel">
+                <div class="editor-controls">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-heading flex items-center">
+                                <i class="fas fa-code text-primary mr-2"></i>
+                                Template Editor
+                            </h2>
+                            <p class="text-subtle mt-1">Edit your code and see changes instantly</p>
+                        </div>
+                        <button id="back-to-templates" class="text-subtle hover:text-primary flex items-center bg-gray-100 hover:bg-primary hover:text-white px-4 py-2 rounded-lg transition-all duration-300">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Change Template
+                        </button>
+                    </div>
+                    
+                    <div class="status-bar">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            <span>Live Preview Active</span>
+                            <span class="mx-2">•</span>
+                            <span>Auto-save enabled</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="editor-grid">
+                    <!-- Code Editor -->
+                    <div class="code-panel">
+                        <div class="code-header">
+                            <div class="code-header-left">
+                                <div class="window-controls">
+                                    <div class="window-control close"></div>
+                                    <div class="window-control minimize"></div>
+                                    <div class="window-control maximize"></div>
+                                </div>
+                                <span class="code-title ml-4">index.html</span>
+                            </div>
+                            <div class="code-actions">
+                                <button class="code-action" id="format-code" title="Format code">
+                                    <i class="fas fa-align-left mr-1"></i>
+                                    Format
+                                </button>
+                                <button class="code-action" id="copy-code" title="Copy to clipboard">
+                                    <i class="fas fa-copy mr-1"></i>
+                                    Copy
+                                </button>
+                                <button class="code-action" id="reset-code" title="Reset to original">
+                                    <i class="fas fa-undo mr-1"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="code-editor" class="code-editor" placeholder="Loading template..."></textarea>
+                    </div>
+                    
+                    <!-- Live Preview -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <div class="code-header-left">
+                                <div class="window-controls">
+                                    <div class="window-control close"></div>
+                                    <div class="window-control minimize"></div>
+                                    <div class="window-control maximize"></div>
+                                </div>
+                                <span class="code-title ml-4">Live Preview</span>
+                            </div>
+                            <div class="text-sm">
+                                <i class="fas fa-eye mr-2"></i>
+                                Real-time
+                            </div>
+                        </div>
+                        <iframe id="preview-frame" class="preview-frame"></iframe>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="save-project" class="action-btn">
+                        <i class="fas fa-save"></i>
+                        Save Project
+                    </button>
+                    
+                    <button id="download-code" class="action-btn secondary">
+                        <i class="fas fa-download"></i>
+                        Download HTML
+                    </button>
+                    
+                    <button id="deploy-website" class="action-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Deploy Live
+                    </button>
+                    
+                    <button id="new-project" class="action-btn outline">
+                        <i class="fas fa-plus"></i>
+                        New Project
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    <style>
+        .editor-panel {
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Template Selection */
+        .template-selection {
+            padding: 48px 0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .template-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-card.selected {
+            border: 2px solid var(--primary);
+        }
+
+        .template-preview {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .template-icon {
+            font-size: 3rem;
+            color: var(--white);
+            opacity: 0.9;
+        }
+
+        /* Editor Panel */
+        .editor-panel {
+            display: none;
+            padding: 48px 0;
+        }
+
+        .editor-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .code-editor {
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            min-height: 500px;
+            resize: none;
+            width: 100%;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-editor:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            background: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 10;
+            border-radius: 8px;
+        }
+
+        .preview-loading {
+            border: 4px solid var(--primary);
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 1px solid var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--background);
+            transform: translateY(-2px);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: var(--white);
+            font-weight: 500;
+            box-shadow: var(--shadow-md);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-success {
+            background: var(--success);
+        }
+
+        .notification-error {
+            background: var(--danger);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .template-selection .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .editor-panel .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        [role="button"]:focus, a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-code"></i>
+                OpenWeb Studio
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div>
+                <button id="deploy-btn" class="btn btn-primary hidden">
+                    <i class="fas fa-cloud-upload-alt"></i> Deploy
+                </button>
+                <button id="download-btn" class="btn btn-secondary hidden">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Project saved successfully!</span>
+    </div>
+
+    <main class="container">
+        <!-- Template Selection -->
+        <section id="template-selection" class="template-selection">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl font-bold mb-4">Select a Template</h1>
+                <p class="text-gray-600 max-w-2xl mx-auto">Choose a professionally designed template to start building your website. Customize every detail with our intuitive editor.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="template-card" data-template="portfolio">
+                    <div class="template-preview">
+                        <i class="fas fa-user template-icon"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Portfolio</h3>
+                        <p class="text-gray-600 mb-4">Showcase your work with a sleek, modern portfolio template.</p>
+                        <button class="btn btn-primary w-full select-template-btn">
+                            <i class="fas fa-edit"></i> Customize
+                        </button>
+                    </div>
+                </div>
+                <div class="template-card" data-template="resume">
+                    <div class="template-preview">
+                        <i class="fas fa-file-alt template-icon"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Resume</h3>
+                        <p class="text-gray-600 mb-4">Create a professional resume with a clean, ATS-friendly design.</p>
+                        <button class="btn btn-primary w-full select-template-btn">
+                            <i class="fas fa-edit"></i> Customize
+                        </button>
+                    </div>
+                </div>
+                <div class="template-card" data-template="landing">
+                    <div class="template-preview">
+                        <i class="fas fa-rocket template-icon"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Landing Page</h3>
+                        <p class="text-gray-600 mb-4">Build a high-converting landing page for your product or service.</p>
+                        <button class="btn btn-primary w-full select-template-btn">
+                            <i class="fas fa-edit"></i> Customize
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Editor Panel -->
+        <section id="editor-panel" class="editor-panel">
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Template Editor</h2>
+                    <button id="back-to-templates" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Change Template
+                    </button>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center gap-4 text-sm text-blue-700">
+                        <span><i class="fas fa-lightbulb"></i> Tip: Edit the code on the left to see live changes on the right.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="bg-gray-800 text-white p-4 rounded-t-lg flex justify-between items-center">
+                        <span>index.html</span>
+                        <div class="flex gap-4">
+                            <button id="reset-code" title="Reset code" class="text-white hover:text-gray-300">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button id="copy-code" title="Copy code" class="text-white hover:text-gray-300">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="code-editor" class="code-editor" aria-label="Code editor"></textarea>
+                </div>
+                <div class="bg-white rounded-lg shadow-md">
+                    <div class="bg-gray-800 text-white p-4 rounded-t-lg">
+                        <span>Live Preview</span>
+                    </div>
+                    <div class="relative">
+                        <div id="preview-overlay" class="preview-overlay">
+                            <div class="preview-loading"></div>
+                            <p class="text-gray-600">Loading preview...</p>
+                        </div>
+                        <iframe id="preview-frame" class="preview-frame" title="Live preview"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <div class="flex justify-center gap-4">
+                    <button id="save-project" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Project
+                    </button>
+                    <button id="download-code" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download Code
+                    </button>
+                    <button id="deploy-website" class="btn btn-primary">
+                        <i class="fas fa-cloud-upload-alt"></i> Deploy
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Deploy Modal -->
+    <div id="deploy-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4" role="dialog" aria-labelledby="deploy-modal-title">
+        <div class="bg-white rounded-lg max-w-md w-full">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="deploy-modal-title" class="text-xl font-bold">Deploy Your Website</h3>
+                    <button id="close-deploy-modal" class="text-gray-500 hover:text-gray-700" aria-label="Close modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <p class="text-gray-600 mb-6">Select a deployment platform:</p>
+                <div class="space-y-4">
+                    <button class="btn btn-primary w-full flex justify-between items-center">
+                        <span><i class="fab fa-github mr-2"></i> GitHub Pages</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-primary w-full flex justify-between items-center">
+                        <span><i class="fas fa-globe mr-2"></i> Netlify</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-primary w-full flex justify-between items-center">
+                        <span><i class="fas fa-server mr-2"></i> Vercel</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ProfessionalTemplateEditor {
+            constructor() {
+                this.templates = {};
+                this.initializeTemplates();
+                this.currentTemplate = null;
+                this.originalCode = '';
+                this.undoStack = [];
+                this.redoStack = [];
+                this.init();
+            }
+
+            initializeTemplates() {
+                // Portfolio Template
+                this.templates.portfolio = {
+                    name: 'Portfolio',
+                    code: this.getPortfolioTemplate()
+                };
+
+                // Resume Template
+                this.templates.resume = {
+                    name: 'Resume', 
+                    code: this.getResumeTemplate()
+                };
+
+                // Landing Page Template
+                this.templates.landing = {
+                    name: 'Landing Page',
+                    code: this.getLandingTemplate()
+                };
+            }
+
+            getPortfolioTemplate() {
+                return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - John Doe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #1f2937; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: linear-gradient(135deg, #3b82f6, #1e40af); color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { color: white; text-decoration: none; transition: opacity 0.3s; }
+        .nav-links a:hover { opacity: 0.8; }
+        .hero { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 8rem 0 4rem; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { background: #10b981; color: white; padding: 0.8rem 2rem; border: none; border-radius: 5px; text-decoration: none; display: inline-block; transition: transform 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .section { padding: 4rem 0; }
+        .section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+        .project-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-card h3 { color: #3b82f6; margin-bottom: 1rem; }
+        footer { background: #1f2937; color: white; text-align: center; padding: 2rem 0; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">John Doe</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Creative Developer</h1>
+            <p>Building beautiful and functional digital experiences</p>
+            <a href="#projects" class="btn">View My Work</a>
+        </div>
+    </section>
+    
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <i class="fas fa-globe fa-2x" style="color: #3b82f6; margin-bottom: 1rem;"></i>
+                    <h3>E-Commerce Platform</h3>
+                    <p>A full-stack e-commerce solution built with React and Node.js, featuring payment integration and admin dashboard.</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">View Project</a>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-mobile-alt fa-2x" style="color: #10b981; margin-bottom: 1rem;"></i>
+                    <h3>Mobile App Design</h3>
+                    <p>UI/UX design for a fitness tracking mobile application with clean, modern interface and intuitive navigation.</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">View Project</a>
+                </div>
+                <div class="project-card">
+                    <i class="fas fa-chart-line fa-2x" style="color: #8b5cf6; margin-bottom: 1rem;"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Real-time analytics dashboard with interactive charts and data visualization for business intelligence.</p>
+                    <a href="#" class="btn" style="margin-top: 1rem;">View Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 John Doe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>`;
+            }
+
+            getResumeTemplate() {
+                return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Jane Smith</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #1f2937; background: #f9fafb; }
+        .container { max-width: 800px; margin: 2rem auto; background: white; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; text-align: center; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .contact-info { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; font-size: 0.9rem; }
+        .section { padding: 2rem; border-bottom: 1px solid #e5e7eb; }
+        .section:last-child { border-bottom: none; }
+        .section h2 { color: #10b981; font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #10b981; padding-bottom: 0.5rem; }
+        .experience-item { margin-bottom: 1.5rem; }
+        .experience-item h3 { color: #1f2937; font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .experience-meta { color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .skill-category h4 { color: #374151; margin-bottom: 0.5rem; }
+        .skill-list { list-style: none; }
+        .skill-list li { background: #f3f4f6; padding: 0.25rem 0.5rem; margin: 0.25rem 0; border-radius: 3px; font-size: 0.9rem; }
+        @media print { body { background: white; } .container { box-shadow: none; margin: 0; } }
+        @media (max-width: 768px) { .contact-info { flex-direction: column; gap: 0.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Jane Smith</h1>
+            <p>Senior Product Designer</p>
+            <div class="contact-info">
+                <span>📧 jane.smith@email.com</span>
+                <span>📱 (555) 123-4567</span>
+                <span>🌐 linkedin.com/in/janesmith</span>
+            </div>
+        </header>
+        
+        <section class="section">
+            <h2>Professional Summary</h2>
+            <p>Creative and detail-oriented Product Designer with 5+ years of experience in user experience design, interface design, and user research. Proven track record of designing intuitive digital products that enhance user satisfaction and drive business growth.</p>
+        </section>
+        
+        <section class="section">
+            <h2>Work Experience</h2>
+            <div class="experience-item">
+                <h3>Senior Product Designer</h3>
+                <div class="experience-meta">TechCorp Inc. • 2020 - Present</div>
+                <p>Lead design for mobile and web applications serving 1M+ users. Collaborated with cross-functional teams to deliver user-centered design solutions that increased user engagement by 35%.</p>
+            </div>
+            <div class="experience-item">
+                <h3>UX/UI Designer</h3>
+                <div class="experience-meta">StartupXYZ • 2018 - 2020</div>
+                <p>Designed end-to-end user experiences for SaaS platform. Conducted user research and usability testing, resulting in 50% reduction in user onboarding time.</p>
+            </div>
+            <div class="experience-item">
+                <h3>Junior Designer</h3>
+                <div class="experience-meta">Design Studio • 2017 - 2018</div>
+                <p>Created visual designs for various clients including branding, web design, and marketing materials. Developed strong foundation in design principles and client communication.</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Education</h2>
+            <div class="experience-item">
+                <h3>Bachelor of Fine Arts in Graphic Design</h3>
+                <div class="experience-meta">Art Institute • 2013 - 2017</div>
+                <p>Graduated Magna Cum Laude. Relevant coursework: User Experience Design, Digital Media, Typography, Color Theory.</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>Skills</h2>
+            <div class="skills">
+                <div class="skill-category">
+                    <h4>Design Tools</h4>
+                    <ul class="skill-list">
+                        <li>Figma</li>
+                        <li>Sketch</li>
+                        <li>Adobe Creative Suite</li>
+                        <li>Principle</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Technical</h4>
+                    <ul class="skill-list">
+                        <li>HTML/CSS</li>
+                        <li>JavaScript</li>
+                        <li>React</li>
+                        <li>Design Systems</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h4>Research</h4>
+                    <ul class="skill-list">
+                        <li>User Interviews</li>
+                        <li>Usability Testing</li>
+                        <li>A/B Testing</li>
+                        <li>Analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>`;
+            }
+
+            getLandingTemplate() {
+                return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductLaunch - Revolutionary Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #1f2937; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { color: #1f2937; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #8b5cf6; }
+        .hero { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; padding: 8rem 0 4rem; text-align: center; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; font-weight: 700; }
+        .hero p { font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+        .btn { padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; transition: transform 0.3s; cursor: pointer; }
+        .btn-primary { background: #10b981; color: white; }
+        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
+        .btn:hover { transform: translateY(-2px); }
+        .section { padding: 4rem 0; }
+        .section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature { text-align: center; padding: 2rem 1rem; }
+        .feature-icon { font-size: 3rem; color: #8b5cf6; margin-bottom: 1rem; }
+        .feature h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .testimonials { background: #f9fafb; }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .testimonial { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .testimonial-author { font-weight: 600; color: #8b5cf6; margin-top: 1rem; }
+        .cta-section { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-align: center; }
+        footer { background: #1f2937; color: white; text-align: center; padding: 2rem 0; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .cta-buttons { flex-direction: column; align-items: center; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">ProductLaunch</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Revolutionary Solution</h1>
+            <p>Transform your workflow with our cutting-edge platform designed for modern teams</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Start Free Trial</a>
+                <a href="#" class="btn btn-secondary">Watch Demo</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features" class="section">
+        <div class="container">
+            <h2>Why Choose Us?</h2>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-rocket feature-icon"></i>
+                    <h3>Lightning Fast</h3>
+                    <p>Experience blazing-fast performance with our optimized infrastructure and advanced caching technology.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>Secure & Reliable</h3>
+                    <p>Enterprise-grade security with 99.9% uptime guarantee. Your data is protected with military-grade encryption.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h3>Team Collaboration</h3>
+                    <p>Built for teams with real-time collaboration, instant sync, and powerful project management tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p>"This platform completely transformed how our team works. We've increased productivity by 300% and couldn't be happier with the results."</p>
+                    <div class="testimonial-author">- Sarah Johnson, CEO at TechStart</div>
+                </div>
+                <div class="testimonial">
+                    <p>"The best investment we've made this year. The intuitive interface and powerful features make complex tasks feel effortless."</p>
+                    <div class="testimonial-author">- Mike Chen, Project Manager</div>
+                </div>
+                <div class="testimonial">
+                    <p>"Outstanding customer support and a product that actually delivers on its promises. Highly recommended for any growing business."</p>
+                    <div class="testimonial-author">- Emily Rodriguez, Founder</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Join thousands of satisfied customers and transform your workflow today.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Start Free Trial</a>
+                <a href="#" class="btn btn-secondary">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ProductLaunch. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>`;
+            }
+                    },
+                    resume: {
+                        name: 'Resume',
+                        code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #1f2937; }
+        .container { max-width: 800px; margin: 2rem auto; background: white; padding: 2rem; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .section { margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Jane Smith</h1>
+            <p>Product Designer</p>
+        </div>
+        <div class="section">
+            <h2>Experience</h2>
+            <p>Senior Designer, TechCorp | 2020-Present</p>
+            <p>Designed user-friendly interfaces for web applications.</p>
+        </div>
+        <div class="section">
+            <h2>Education</h2>
+            <p>BFA in Design, Art University | 2016-2020</p>
+        </div>
+    </div>
+</body>
+</html>`
+                    },
+                    landing: {
+                        name: 'Landing Page',
+                        code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #1f2937; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hero { background: #3b82f6; color: white; text-align: center; padding: 4rem 0; }
+        .btn { background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Our Product</h1>
+            <p>Transform your business with our solution.</p>
+            <a href="#" class="btn">Get Started</a>
+        </div>
+    </section>
+</body>
+</html>`
+                    }
+                };
+                this.currentTemplate = null;
+                this.originalCode = '';
+                this.undoStack = [];
+                this.redoStack = [];
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.loadSavedProject();
+            }
+
+            bindEvents() {
+                document.querySelectorAll('.select-template-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const card = btn.closest('.template-card');
+                        this.selectTemplate(card.dataset.template);
+                    });
+                });
+
+                document.getElementById('back-to-templates')?.addEventListener('click', () => this.showTemplateSelection());
+                document.getElementById('code-editor')?.addEventListener('input', () => this.updatePreview());
+                document.getElementById('reset-code')?.addEventListener('click', () => this.resetCode());
+                document.getElementById('copy-code')?.addEventListener('click', () => this.copyCode());
+                document.getElementById('download-code')?.addEventListener('click', () => this.downloadCode());
+                document.getElementById('save-project')?.addEventListener('click', () => this.saveProject());
+                document.getElementById('deploy-website')?.addEventListener('click', () => this.showDeployModal());
+                document.getElementById('close-deploy-modal')?.addEventListener('click', () => this.hideDeployModal());
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey) {
+                        if (e.key === 's') {
+                            e.preventDefault();
+                            this.saveProject();
+                        } else if (e.key === 'z') {
+                            e.preventDefault();
+                            this.undo();
+                        } else if (e.key === 'y') {
+                            e.preventDefault();
+                            this.redo();
+                        }
+                    }
+                });
+            }
+
+            selectTemplate(templateType) {
+                if (!this.templates[templateType]) return;
+                this.currentTemplate = templateType;
+                this.originalCode = this.templates[templateType].code;
+                const codeEditor = document.getElementById('code-editor');
+                if (codeEditor) {
+                    codeEditor.value = this.originalCode;
+                    this.undoStack = [this.originalCode];
+                    this.redoStack = [];
+                    this.updatePreview();
+                    this.showEditor();
+                    this.showNotification(`Loaded ${this.templates[templateType].name}`, 'success');
+                }
+            }
+
+            showEditor() {
+                document.getElementById('template-selection').style.display = 'none';
+                document.getElementById('editor-panel').classList.add('active');
+                document.getElementById('deploy-btn').classList.remove('hidden');
+                document.getElementById('download-btn').classList.remove('hidden');
+            }
+
+            showTemplateSelection() {
+                document.getElementById('editor-panel').classList.remove('active');
+                document.getElementById('template-selection').style.display = 'block';
+                document.getElementById('deploy-btn').classList.add('hidden');
+                document.getElementById('download-btn').classList.add('hidden');
+                this.currentTemplate = null;
+            }
+
+            updatePreview() {
+                const codeEditor = document.getElementById('code-editor');
+                const previewFrame = document.getElementById('preview-frame');
+                const previewOverlay = document.getElementById('preview-overlay');
+                if (!codeEditor || !previewFrame) return;
+
+                previewOverlay.style.display = 'flex';
+                const code = codeEditor.value;
+                this.undoStack.push(code);
+                if (this.undoStack.length > 50) this.undoStack.shift();
+
+                localStorage.setItem('currentTemplate', this.currentTemplate);
+                localStorage.setItem('savedCode', code);
+
+                const blob = new Blob([code], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                previewFrame.src = url;
+                previewFrame.onload = () => {
+                    previewOverlay.style.display = 'none';
+                    URL.revokeObjectURL(url);
+                };
+            }
+
+            undo() {
+                if (this.undoStack.length <= 1) return;
+                const codeEditor = document.getElementById('code-editor');
+                if (!codeEditor) return;
+
+                this.redoStack.push(this.undoStack.pop());
+                codeEditor.value = this.undoStack[this.undoStack.length - 1];
+                this.updatePreview();
+                this.showNotification('Undone', 'success');
+            }
+
+            redo() {
+                if (this.redoStack.length === 0) return;
+                const codeEditor = document.getElementById('code-editor');
+                if (!codeEditor) return;
+
+                const code = this.redoStack.pop();
+                this.undoStack.push(code);
+                codeEditor.value = code;
+                this.updatePreview();
+                this.showNotification('Redone', 'success');
+            }
+
+            resetCode() {
+                if (confirm('Reset to original template? All changes will be lost.')) {
+                    const codeEditor = document.getElementById('code-editor');
+                    if (codeEditor) {
+                        codeEditor.value = this.originalCode;
+                        this.undoStack = [this.originalCode];
+                        this.redoStack = [];
+                        this.updatePreview();
+                        this.showNotification('Code reset', 'success');
+                    }
+                }
+            }
+
+            copyCode() {
+                const codeEditor = document.getElementById('code-editor');
+                if (codeEditor) {
+                    codeEditor.select();
+                    document.execCommand('copy');
+                    this.showNotification('Code copied to clipboard', 'success');
+                }
+            }
+
+            saveProject() {
+                if (!this.currentTemplate) return;
+                localStorage.setItem('currentTemplate', this.currentTemplate);
+                localStorage.setItem('savedCode', document.getElementById('code-editor')?.value);
+                this.showNotification('Project saved', 'success');
+            }
+
+            downloadCode() {
+                const codeEditor = document.getElementById('code-editor');
+                if (!codeEditor || !this.currentTemplate) return;
+
+                const blob = new Blob([codeEditor.value], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${this.currentTemplate}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                this.showNotification('Code downloaded', 'success');
+            }
+
+            showDeployModal() {
+                document.getElementById('deploy-modal').classList.remove('hidden');
+            }
+
+            hideDeployModal() {
+                document.getElementById('deploy-modal').classList.add('hidden');
+            }
+
+            showNotification(message, type) {
+                const notification = document.getElementById('notification');
+                notification.querySelector('span').textContent = message;
+                notification.className = `notification ${type === 'success' ? 'notification-success' : 'notification-error'}`;
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), 3000);
+            }
+
+            loadSavedProject() {
+                const savedTemplate = localStorage.getItem('currentTemplate');
+                const savedCode = localStorage.getItem('savedCode');
+                if (savedTemplate && savedCode && this.templates[savedTemplate]) {
+                    this.currentTemplate = savedTemplate;
+                    this.originalCode = this.templates[savedTemplate].code;
+                    const codeEditor = document.getElementById('code-editor');
+                    if (codeEditor) {
+                        codeEditor.value = savedCode;
+                        this.undoStack = [savedCode];
+                        this.redoStack = [];
+                        this.showEditor();
+                        this.updatePreview();
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new ProfessionalTemplateEditor();
+        });
+    </script>
+</body>
+</html>
