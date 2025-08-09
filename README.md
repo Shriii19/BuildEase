@@ -2,19 +2,6 @@
 
 A modern, responsive website for a construction company built with HTML, CSS, and JavaScript. This project showcases professional construction services with a clean, user-friendly design.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Pages](#pages)
-- [Technologies Used](#technologies-used)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🎯 Overview
 
 BUILDEASE is a comprehensive website solution for construction companies, featuring:
@@ -79,15 +66,8 @@ BuildEase/
    ```
 
 3. **Launch the website**:
-   - Open `index.html` in your web browser, or
-   - Use a local server (recommended):
-     ```bash
-     # Using Python
-     python -m http.server 3000
-     
-     # Using Node.js (if you have live-server installed)
-     npx live-server
-     
+   - Open `index.html` in your web browser,
+   - 
      # Using VS Code Live Server extension
      Right-click on index.html → "Open with Live Server"
      ```
