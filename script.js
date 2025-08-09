@@ -1,25 +1,43 @@
-// Mobile Navigation
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
+// =====================================
+// MOBILE MENU FUNCTIONALITY
+// =====================================
 
-hamburger.addEventListener('click', () => {
+// Get mobile menu elements
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navMenu = document.querySelector('.nav-menu');
+
+// Toggle mobile menu when button is clicked
+mobileMenuBtn.addEventListener('click', function() {
     navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
+    
+    // Animate hamburger menu
+    mobileMenuBtn.classList.toggle('active');
 });
 
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-    navMenu.classList.remove('active');
-    hamburger.classList.remove('active');
-}));
+// Close mobile menu when a link is clicked
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        navMenu.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+    });
+});
 
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+// =====================================
+// SMOOTH SCROLLING FOR LINKS
+// =====================================
+
+// Make all anchor links scroll smoothly
+const anchorLinks = document.querySelectorAll('a[href^="#"]');
+anchorLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
+        
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            targetSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
@@ -27,79 +45,108 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Counter animation for stats
-const animateCounters = () => {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-count'));
-        const count = +counter.innerText;
-        const increment = target / 100;
-        
-        if (count < target) {
-            counter.innerText = Math.ceil(count + increment);
-            setTimeout(animateCounters, 50);
-        } else {
-            counter.innerText = target;
-        }
-    });
-};
+// =====================================
+// NAVBAR BACKGROUND ON SCROLL
+// =====================================
 
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            
-            // Trigger counter animation for stats section
-            if (entry.target.classList.contains('stats')) {
-                setTimeout(animateCounters, 500);
-            }
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animation
-document.querySelectorAll('.service-card, .feature-card, .stat-card, .section-header').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'all 0.6s ease-out';
-    observer.observe(el);
-});
-
-// Navbar background change on scroll
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
+    
+    if (window.scrollY > 50) {
         navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.borderBottom = '1px solid #e2e8f0';
     } else {
         navbar.style.background = 'rgba(255, 255, 255, 0.95)';
     }
 });
 
-// Parallax effect for hero background
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.hero-background');
-    
-    parallaxElements.forEach(element => {
-        const speed = 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
+// =====================================
+// FADE IN ANIMATIONS
+// =====================================
+
+// Function to check if element is in viewport
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+// Add fade-in class to elements
+const fadeElements = document.querySelectorAll('.service-card, .feature-card, .stat-item');
+fadeElements.forEach(element => {
+    element.classList.add('fade-in');
+});
+
+// Check scroll and add visible class
+function checkScroll() {
+    fadeElements.forEach(element => {
+        if (isInViewport(element)) {
+            element.classList.add('visible');
+        }
     });
-});
+}
 
-// Loading animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
-});
+// Run on scroll and page load
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('load', checkScroll);
 
-// Add loading state to body
-document.body.style.opacity = '0';
-document.body.style.transition = 'opacity 0.3s ease-in';
+// =====================================
+// SIMPLE CONTACT FORM (if you add one)
+// =====================================
+
+// Example function for handling contact form
+function handleContactForm(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    // Simple validation
+    if (name && email && message) {
+        alert('Thank you for your message! We will get back to you soon.');
+        // Here you would typically send the data to a server
+    } else {
+        alert('Please fill in all fields.');
+    }
+}
+
+// =====================================
+// HELPFUL TIPS FOR BEGINNERS
+// =====================================
+
+/*
+HOW TO CUSTOMIZE THIS WEBSITE:
+
+1. COLORS:
+   - Go to the :root section in CSS
+   - Change the color values (like --primary-color: #3b82f6;)
+   - All colors will update automatically!
+
+2. CONTENT:
+   - Change text in the HTML file
+   - Replace company name "BUILDEASE" with your name
+   - Update phone numbers, emails, and addresses
+
+3. IMAGES:
+   - Add your images to an "images" folder
+   - Update the image sources in HTML (src="images/yourimage.jpg")
+
+4. FONTS:
+   - Change 'Poppins' to any Google Font you like
+   - Update the Google Fonts link in HTML head section
+
+5. SECTIONS:
+   - Add new sections by copying existing section structure
+   - Remove sections you don't need
+
+6. NAVIGATION:
+   - Add new menu items in the nav-menu ul
+   - Make sure to add corresponding sections with matching IDs
+
+Remember: Always test your changes on mobile devices!
+*/
