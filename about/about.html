@@ -4,7 +4,445 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - BUILDEASE</title>
-    <link rel="stylesheet" href="../style.css">
+    
+    <!-- External Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Embedded CSS -->
+    <style>
+        /* =================================
+           BASIC SETUP & COLORS
+           ================================= */
+
+        /* Reset default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main color scheme - Easy to change! */
+        :root {
+            /* PRIMARY COLORS - Change these to match your brand */
+            --primary-color: #3b82f6;     /* Blue */
+            --secondary-color: #10b981;   /* Green */
+            --accent-color: #f59e0b;      /* Orange */
+            
+            /* BACKGROUND COLORS */
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --gray: #64748b;
+            --dark: #0f172a;
+            
+            /* SPACING & SIZES */
+            --container-width: 1200px;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        /* Basic body setup */
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--white);
+            padding-top: 80px;
+        }
+
+        /* Container for all sections */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* =================================
+           HEADER/NAVIGATION
+           ================================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 1000;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* =================================
+           MAIN CONTENT STYLES
+           ================================= */
+
+        main {
+            padding: 40px 0;
+            min-height: calc(100vh - 160px);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 40px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid #e2e8f0;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .back-btn:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateX(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .section {
+            margin-bottom: 60px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .section p {
+            font-size: 16px;
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .section ul {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .section ul li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 3px solid var(--primary-color);
+            margin-left: 15px;
+            transition: var(--transition);
+        }
+
+        .section ul li:hover {
+            background: rgba(59, 130, 246, 0.05);
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        /* Values Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-card h3::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Leadership Team Enhancements */
+        .section:has(.leadership-list) {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.02), rgba(16, 185, 129, 0.02));
+        }
+
+        .leadership-list {
+            margin-top: 30px;
+        }
+
+        .leadership-list li {
+            background: var(--white);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .leadership-list li:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
+        }
+
+        /* Why Choose Us Section */
+        .section:last-of-type {
+            background: linear-gradient(135deg, var(--light-gray), #e2e8f0);
+        }
+
+        .section:last-of-type p strong {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* =================================
+           FOOTER
+           ================================= */
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* =================================
+           ANIMATIONS
+           ================================= */
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =================================
+           MOBILE RESPONSIVE
+           ================================= */
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            header {
+                height: 70px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .section {
+                padding: 25px 20px;
+                margin-bottom: 30px;
+            }
+
+            .section h2 {
+                font-size: 26px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .back-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .leadership-list li {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 20px 15px;
+            }
+
+            .section h2 {
+                font-size: 22px;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            nav a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+
+        /* =================================
+           LOADING ANIMATION
+           ================================= */
+
+        body {
+            opacity: 0;
+            animation: fadeInPage 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeInPage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Enhanced interactions */
+        .section, .service-card, .back-btn {
+            cursor: pointer;
+        }
+
+        .section:active {
+            transform: scale(0.98);
+        }
+
+        /* Focus states for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -27,28 +465,28 @@
         <div class="container">
             <a href="../index.html" class="back-btn">← Back to Home</a>
             
-            <section class="section">
+            <section class="section fade-in">
                 <h2>About BUILDEASE</h2>
                 <p>Founded in 2015, BUILDEASE has emerged as a leading construction company dedicated to transforming architectural dreams into tangible realities. Our journey began with a simple vision: to provide exceptional construction services that combine traditional craftsmanship with modern innovation.</p>
                 
                 <p>Over the years, we have successfully completed over 500 projects, ranging from cozy residential homes to sprawling commercial complexes. Our commitment to excellence has earned us recognition as one of the most trusted construction partners in the industry.</p>
             </section>
 
-            <section class="section">
+            <section class="section fade-in">
                 <h2>Our Mission</h2>
                 <p>At BUILDEASE, our mission is to deliver outstanding construction solutions that exceed our clients' expectations while maintaining the highest standards of quality, safety, and sustainability. We believe that every project is an opportunity to create something extraordinary.</p>
                 
                 <p>We are committed to:</p>
-                <ul style="margin-left: 2rem; margin-top: 1rem;">
-                    <li style="margin-bottom: 0.5rem;">Delivering projects on time and within budget</li>
-                    <li style="margin-bottom: 0.5rem;">Using sustainable and eco-friendly building practices</li>
-                    <li style="margin-bottom: 0.5rem;">Maintaining open communication with our clients</li>
-                    <li style="margin-bottom: 0.5rem;">Ensuring the safety of our workers and the public</li>
-                    <li style="margin-bottom: 0.5rem;">Continuously improving our skills and techniques</li>
+                <ul>
+                    <li>Delivering projects on time and within budget</li>
+                    <li>Using sustainable and eco-friendly building practices</li>
+                    <li>Maintaining open communication with our clients</li>
+                    <li>Ensuring the safety of our workers and the public</li>
+                    <li>Continuously improving our skills and techniques</li>
                 </ul>
             </section>
 
-            <section class="section">
+            <section class="section fade-in">
                 <h2>Our Values</h2>
                 <div class="services-grid">
                     <div class="service-card">
@@ -78,22 +516,22 @@
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section fade-in">
                 <h2>Our Team</h2>
                 <p>BUILDEASE is powered by a team of highly skilled professionals who bring decades of combined experience to every project. Our team includes licensed architects, experienced project managers, skilled craftsmen, and dedicated support staff.</p>
                 
                 <p>Each team member is committed to delivering excellence and is continuously trained on the latest industry standards and technologies. We believe that our people are our greatest asset, and their expertise is what sets us apart from the competition.</p>
                 
                 <p><strong>Leadership Team:</strong></p>
-                <ul style="margin-left: 2rem; margin-top: 1rem;">
-                    <li style="margin-bottom: 0.5rem;"><strong>John Anderson</strong> - CEO & Founder (25+ years experience)</li>
-                    <li style="margin-bottom: 0.5rem;"><strong>Sarah Mitchell</strong> - Chief Project Manager (20+ years experience)</li>
-                    <li style="margin-bottom: 0.5rem;"><strong>Michael Chen</strong> - Head of Design (18+ years experience)</li>
-                    <li style="margin-bottom: 0.5rem;"><strong>Jennifer Wilson</strong> - Operations Director (15+ years experience)</li>
+                <ul class="leadership-list">
+                    <li><strong>John Anderson</strong> - CEO & Founder (25+ years experience)</li>
+                    <li><strong>Sarah Mitchell</strong> - Chief Project Manager (20+ years experience)</li>
+                    <li><strong>Michael Chen</strong> - Head of Design (18+ years experience)</li>
+                    <li><strong>Jennifer Wilson</strong> - Operations Director (15+ years experience)</li>
                 </ul>
             </section>
 
-            <section class="section">
+            <section class="section fade-in">
                 <h2>Why Choose Us?</h2>
                 <p>When you choose BUILDEASE, you're not just hiring a construction company – you're partnering with a team that cares about your vision as much as you do. Here's what makes us different:</p>
                 
@@ -116,6 +554,333 @@
         </div>
     </footer>
 
-    <script src="../script.js"></script>
+    <!-- Embedded JavaScript -->
+    <script>
+        // =====================================
+        // PAGE INITIALIZATION
+        // =====================================
+
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('About page loaded successfully!');
+            
+            // Initialize all functionality
+            initSmoothScrolling();
+            initScrollAnimations();
+            initNavbarEffects();
+            initCardInteractions();
+            initAccessibility();
+        });
+
+        // =====================================
+        // SMOOTH SCROLLING
+        // =====================================
+
+        function initSmoothScrolling() {
+            // Smooth scrolling for all anchor links
+            const anchorLinks = document.querySelectorAll('a[href^="#"]');
+            anchorLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 100; // Account for fixed header
+                        
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // =====================================
+        // SCROLL ANIMATIONS
+        // =====================================
+
+        function initScrollAnimations() {
+            // Get all elements that should fade in
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            // Create intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Add staggered animation for service cards
+                        const serviceCards = entry.target.querySelectorAll('.service-card');
+                        serviceCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                        
+                        // Remove observer after animation
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Start observing all fade elements
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Initially hide service cards for staggered animation
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+            });
+        }
+
+        // =====================================
+        // NAVBAR EFFECTS
+        // =====================================
+
+        function initNavbarEffects() {
+            const header = document.querySelector('header');
+            let lastScrollY = window.scrollY;
+            
+            window.addEventListener('scroll', function() {
+                const currentScrollY = window.scrollY;
+                
+                // Change header background on scroll
+                if (currentScrollY > 50) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = 'none';
+                }
+                
+                // Optional: Hide/show header on scroll
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    // Scrolling down
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    header.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+        }
+
+        // =====================================
+        // CARD INTERACTIONS
+        // =====================================
+
+        function initCardInteractions() {
+            // Enhanced hover effects for service cards
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                    this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Section hover effects
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.addEventListener('mouseenter', function() {
+                    this.style.borderColor = 'var(--primary-color)';
+                });
+                
+                section.addEventListener('mouseleave', function() {
+                    this.style.borderColor = '#e2e8f0';
+                });
+            });
+        }
+
+        // =====================================
+        // ACCESSIBILITY IMPROVEMENTS
+        // =====================================
+
+        function initAccessibility() {
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('using-keyboard');
+                }
+            });
+            
+            document.addEventListener('mousedown', function() {
+                document.body.classList.remove('using-keyboard');
+            });
+            
+            // Focus management
+            const focusableElements = document.querySelectorAll(
+                'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    if (document.body.classList.contains('using-keyboard')) {
+                        this.style.outline = '3px solid var(--primary-color)';
+                        this.style.outlineOffset = '2px';
+                    }
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.outline = '';
+                    this.style.outlineOffset = '';
+                });
+            });
+        }
+
+        // =====================================
+        // INTERACTIVE FEATURES
+        // =====================================
+
+        // Add click effects to sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(59, 130, 246, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // =====================================
+        // PERFORMANCE OPTIMIZATION
+        // =====================================
+
+        // Debounce scroll events for better performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Use debounced scroll handler
+        window.addEventListener('scroll', debounce(function() {
+            // Additional scroll handling can be added here
+        }, 10));
+
+        // =====================================
+        // EASTER EGG
+        // =====================================
+
+        // Fun interaction - Click the logo 5 times for a surprise!
+        let logoClicks = 0;
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            logoClicks++;
+            
+            if (logoClicks === 5) {
+                this.style.animation = 'bounce 0.5s ease-in-out';
+                setTimeout(() => {
+                    alert('🎉 Thanks for exploring our About page! You found the easter egg!');
+                    this.style.animation = '';
+                    logoClicks = 0;
+                }, 500);
+            }
+        });
+
+        // Add bounce animation
+        const bounceStyle = document.createElement('style');
+        bounceStyle.textContent = `
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-20px);
+                }
+                60% {
+                    transform: translateY(-10px);
+                }
+            }
+        `;
+        document.head.appendChild(bounceStyle);
+
+        // =====================================
+        // ERROR HANDLING
+        // =====================================
+
+        window.addEventListener('error', function(e) {
+            console.log('JavaScript error caught:', e.message);
+            // Graceful degradation - page still works without JS
+        });
+
+        // =====================================
+        // CONSOLE MESSAGE
+        // =====================================
+
+        console.log(`
+        🏗️ BUILDEASE About Page
+        ======================
+        
+        Thanks for visiting our about page!
+        
+        This page features:
+        ✅ Modern responsive design
+        ✅ Smooth animations
+        ✅ Interactive elements
+        ✅ Accessibility features
+        
+        For more information, contact us!
+        `);
+    </script>
 </body>
 </html>
