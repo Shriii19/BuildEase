@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BUILDEASE</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../index.html" class="logo">BUILDEASE</a>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../about/about.html">About</a></li>
+                        <li><a href="../services/services.html">Services</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="../index.html" class="back-btn">← Back to Home</a>
+            
+            <section class="section">
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Login to BUILDEASE</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; color: #666;">Access your account to manage your construction projects and connect with our team.</p>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Username or Email</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="remember" name="remember" style="width: auto;">
+                            <label for="remember" style="margin: 0;">Remember me</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn" style="width: 100%;">Login</button>
+                        </div>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p><a href="#" style="color: #667eea; text-decoration: none;">Forgot your password?</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 style="text-align: center;">New to BUILDEASE?</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Create an account to get started with your construction project. Join thousands of satisfied customers who trust BUILDEASE for their building needs.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Project Dashboard</h3>
+                        <p>Track your project progress, view updates, and communicate with your project manager in real-time.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <h3>Document Access</h3>
+                        <p>Access all your project documents, contracts, and blueprints securely online anytime, anywhere.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <h3>Direct Communication</h3>
+                        <p>Connect directly with your construction team, ask questions, and get immediate responses.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="#" class="btn" onclick="showSignupForm()">Create New Account</a>
+                </div>
+            </section>
+
+            <!-- Hidden Signup Form -->
+            <section class="section" id="signupSection" style="display: none;">
+                <div class="form-container">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h2>
+                    
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Company/Organization (Optional)</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newPassword">Password</label>
+                            <input type="password" id="newPassword" name="newPassword" required minlength="8">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectType">Type of Project Interest</label>
+                            <select id="projectType" name="projectType" style="width: 100%; padding: 1rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                                <option value="">Select project type</option>
+                                <option value="residential">Residential Construction</option>
+                                <option value="commercial">Commercial Construction</option>
+                                <option value="renovation">Home Renovation</option>
+                                <option value="addition">Home Addition</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="terms" name="terms" required style="width: auto;">
+                            <label for="terms" style="margin: 0; font-size: 0.9rem;">I agree to the <a href="#" style="color: #667eea;">Terms of Service</a> and <a href="#" style="color: #667eea;">Privacy Policy</a></label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+                        </div>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p>Already have an account? <a href="#" style="color: #667eea; text-decoration: none;" onclick="hideSignupForm()">Login here</a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Contact Information</h2>
+                <p>Need help with your account or have questions about our services? Our customer support team is here to help.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>📞 Phone Support</h3>
+                        <p><strong>Main Line:</strong> (555) 123-4567</p>
+                        <p><strong>Emergency:</strong> (555) 123-4568</p>
+                        <p><strong>Hours:</strong> Mon-Fri 8AM-6PM, Sat 9AM-4PM</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <h3>📧 Email Support</h3>
+                        <p><strong>General:</strong> info@buildease.com</p>
+                        <p><strong>Projects:</strong> projects@buildease.com</p>
+                        <p><strong>Support:</strong> support@buildease.com</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <h3>🏢 Office Location</h3>
+                        <p>123 Construction Avenue<br>
+                        Building City, BC 12345</p>
+                        <p><strong>Office Hours:</strong> Mon-Fri 8AM-5PM</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 BUILDEASE. All rights reserved. Building excellence, one project at a time.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        function showSignupForm() {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function hideSignupForm() {
+            document.getElementById('signupSection').style.display = 'none';
+            document.querySelector('#loginForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Handle signup form
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return;
+            }
+            
+            // Simulate account creation
+            alert('Account created successfully! You can now login with your credentials.');
+            hideSignupForm();
+        });
+    </script>
+</body>
+</html>
