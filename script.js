@@ -1,159 +1,105 @@
-// Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+// Mobile Navigation
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
 
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            const navMenu = document.getElementById('nav-menu');
-            const menuBtn = document.querySelector('.mobile-menu-btn i');
+hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+    hamburger.classList.remove('active');
+}));
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Counter animation for stats
+const animateCounters = () => {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'));
+        const count = +counter.innerText;
+        const increment = target / 100;
+        
+        if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(animateCounters, 50);
+        } else {
+            counter.innerText = target;
+        }
+    });
+};
+
+// Intersection Observer for animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
             
-            navMenu.classList.toggle('show');
-            
-            if (navMenu.classList.contains('show')) {
-                menuBtn.classList.remove('fa-bars');
-                menuBtn.classList.add('fa-times');
-            } else {
-                menuBtn.classList.remove('fa-times');
-                menuBtn.classList.add('fa-bars');
+            // Trigger counter animation for stats section
+            if (entry.target.classList.contains('stats')) {
+                setTimeout(animateCounters, 500);
             }
         }
+    });
+}, observerOptions);
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerHeight = document.getElementById('header').offsetHeight;
-                    const targetPosition = target.offsetTop - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    const navMenu = document.getElementById('nav-menu');
-                    const menuBtn = document.querySelector('.mobile-menu-btn i');
-                    if (navMenu.classList.contains('show')) {
-                        navMenu.classList.remove('show');
-                        menuBtn.classList.remove('fa-times');
-                        menuBtn.classList.add('fa-bars');
-                    }
-                }
-            });
-        });
+// Observe elements for animation
+document.querySelectorAll('.service-card, .feature-card, .stat-card, .section-header').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'all 0.6s ease-out';
+    observer.observe(el);
+});
 
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+// Navbar background change on scroll
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        navbar.style.borderBottom = '1px solid #e2e8f0';
+    } else {
+        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+    }
+});
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+// Parallax effect for hero background
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.hero-background');
+    
+    parallaxElements.forEach(element => {
+        const speed = 0.5;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+});
 
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+// Loading animation
+window.addEventListener('load', () => {
+    document.body.style.opacity = '1';
+});
 
-        // Counter animation
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-count'));
-            const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
-
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current) + (target === 98 ? '%' : '+');
-            }, 16);
-        }
-
-        // Animate counters when visible
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target.querySelector('.stat-number');
-                    if (counter && !counter.classList.contains('animated')) {
-                        counter.classList.add('animated');
-                        animateCounter(counter);
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.stat-item').forEach(item => {
-            counterObserver.observe(item);
-        });
-
-        // Notification system
-        function showNotification(message, type = 'info') {
-            // Remove existing notification
-            const existing = document.querySelector('.notification');
-            if (existing) existing.remove();
-
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle"></i>
-                ${message}
-            `;
-
-            document.body.appendChild(notification);
-
-            setTimeout(() => notification.classList.add('show'), 100);
-
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 4000);
-        }
-
-        // Login modal simulation
-        function showLoginModal() {
-            showNotification('Login feature coming soon! Stay tuned for updates.', 'info');
-        }
-
-        // Button click effects
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('btn')) {
-                e.target.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    e.target.style.transform = '';
-                }, 150);
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                const navMenu = document.getElementById('nav-menu');
-                const menuBtn = document.querySelector('.mobile-menu-btn i');
-                if (navMenu.classList.contains('show')) {
-                    navMenu.classList.remove('show');
-                    menuBtn.classList.remove('fa-times');
-                    menuBtn.classList.add('fa-bars');
-                }
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            showNotification('Welcome to BUILDEASE - Your Construction Partner!', 'success');
-        });
+// Add loading state to body
+document.body.style.opacity = '0';
+document.body.style.transition = 'opacity 0.3s ease-in';
