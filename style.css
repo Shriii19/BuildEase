@@ -755,6 +755,7 @@ body {
 
 .footer-content {
     max-width: var(--container-width);
+    margin-top: 30px;
     margin: 0 auto;
     padding: 0 20px;
     display: grid;
@@ -840,6 +841,35 @@ body {
     color: #94a3b8;
 }
 
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-bottom-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom-links span {
+    color: #64748b;
+}
+
 /* =================================
    MOBILE RESPONSIVE
    ================================= */
@@ -902,6 +932,12 @@ body {
     
     .footer-links {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
 }
 
