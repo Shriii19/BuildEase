@@ -2,19 +2,6 @@
 
 A modern, responsive website for a construction company built with HTML, CSS, and JavaScript. This project showcases professional construction services with a clean, user-friendly design.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Pages](#pages)
-- [Technologies Used](#technologies-used)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🎯 Overview
 
 BUILDEASE is a comprehensive website solution for construction companies, featuring:
@@ -79,15 +66,8 @@ BuildEase/
    ```
 
 3. **Launch the website**:
-   - Open `index.html` in your web browser, or
-   - Use a local server (recommended):
-     ```bash
-     # Using Python
-     python -m http.server 3000
-     
-     # Using Node.js (if you have live-server installed)
-     npx live-server
-     
+   - Open `index.html` in your web browser,
+   - 
      # Using VS Code Live Server extension
      Right-click on index.html → "Open with Live Server"
      ```
@@ -105,111 +85,6 @@ BuildEase/
 - **Content**: Update text content in HTML files
 - **Images**: Replace placeholder content with actual project images
 - **Branding**: Update company name, logo, and contact information
-
-## 📄 Pages
-
-### 🏠 Home Page (`index.html`)
-- **Hero Section**: Eye-catching introduction with call-to-action
-- **Services Preview**: Overview of main construction services
-- **Statistics**: Company achievements and numbers
-- **Why Choose Us**: Key differentiators and benefits
-- **Portfolio**: Recent project showcase
-- **Testimonials**: Client reviews and feedback
-- **Process Overview**: Step-by-step construction process
-- **Contact CTA**: Call-to-action for potential clients
-
-### ℹ️ About Page (`about/about.html`)
-- Company history and mission
-- Core values and principles
-- Leadership team information
-- Why choose BUILDEASE
-- Company achievements and experience
-
-### 🔧 Services Page (`services/services.html`)
-- Detailed service descriptions
-- Construction process explanation
-- Technology and innovation showcase
-- Specialized services breakdown
-- Project management approach
-
-### 🔐 Login Page (`login/login.html`)
-- User authentication form
-- Account registration option
-- Password recovery
-- Client portal access
-- Contact information for support
-
-### 📞 Contact Page (`contact/contact.html`)
-- Contact forms for inquiries
-- Office location and hours
-- Multiple contact methods
-- Service area information
-- Emergency contact details
-
-## 🛠️ Technologies Used
-
-- **HTML5**: Semantic markup and structure
-- **CSS3**: Modern styling with Flexbox and Grid
-- **JavaScript (ES6+)**: Interactive functionality and animations
-- **Font Awesome**: Professional icon library
-- **Google Fonts**: Poppins font family for typography
-- **CSS Variables**: Easy theme customization
-- **Responsive Design**: Mobile-first approach
-
-## 🎨 Customization
-
-### Color Scheme
-The website uses CSS custom properties for easy color customization:
-
-```css
-:root {
-    --primary-color: #3b82f6;     /* Main blue color */
-    --secondary-color: #10b981;   /* Green accent */
-    --accent-color: #f59e0b;      /* Orange highlights */
-    --white: #ffffff;
-    --light-gray: #f8fafc;
-    --gray: #64748b;
-    --dark: #0f172a;
-}
-```
-
-### Typography
-- Primary font: Poppins (Google Fonts)
-- Fallback: system fonts for better performance
-- Font weights: 300, 400, 500, 600, 700, 800
-
-### Layout
-- Max container width: 1200px
-- Responsive breakpoints for tablet and mobile
-- Flexible grid systems for different sections
-
-## 📱 Responsive Design
-
-The website is fully responsive with breakpoints for:
-- **Desktop**: 1200px and above
-- **Tablet**: 768px to 1199px
-- **Mobile**: Below 768px
-
-## 🚀 Performance Features
-
-- **Optimized CSS**: Efficient selectors and minimal redundancy
-- **Compressed Images**: Placeholder system for easy image replacement
-- **Clean JavaScript**: Modular functions and event handling
-- **Fast Loading**: Minimal external dependencies
-
-## 🔧 Browser Support
-
-- **Modern Browsers**: Chrome, Firefox, Safari, Edge (latest versions)
-- **Mobile Browsers**: iOS Safari, Chrome Mobile, Samsung Internet
-- **Graceful Degradation**: Fallbacks for older browsers
-
-## 📈 SEO Optimization
-
-- Semantic HTML structure
-- Meta tags for search engines
-- Alt attributes for images
-- Proper heading hierarchy
-- Fast loading times
 
 ## 🤝 Contributing
 
@@ -230,20 +105,9 @@ Potential additions for future versions:
 - **CMS Integration**: Content management system
 - **Payment Integration**: Online payment processing
 
-## 📞 Support
-
-For questions or support:
-- **Email**: info@buildease.com
-- **Phone**: +1 (555) 123-4567
-- **Website**: [buildease.com](https://buildease.com)
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 👥 Authors
 
-- **Your Name** - Initial work - [YourGitHub](https://github.com/yourusername)
+- **Your Name** - Initial work - [YourGitHub](https://github.com/shriii19)
 
 ## 🙏 Acknowledgments
 
