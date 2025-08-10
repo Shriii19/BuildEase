@@ -26,7 +26,9 @@
     --container-width: 1200px;
     --border-radius: 12px;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
+    --transition-slow: all 0.6s ease;
 }
 
 /* Basic body setup */
@@ -35,6 +37,7 @@ body {
     line-height: 1.6;
     color: var(--dark);
     background: var(--white);
+    overflow-x: hidden; /* Prevent horizontal scroll during animations */
 }
 
 /* Container for all sections */
@@ -42,6 +45,147 @@ body {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* =================================
+   ANIMATION KEYFRAMES
+   ================================= */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+/* =================================
+   FADE IN ANIMATION CLASSES
+   ================================= */
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition-slow);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: var(--transition-slow);
+}
+
+.fade-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: var(--transition-slow);
+}
+
+.fade-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: var(--transition-slow);
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* =================================
@@ -57,6 +201,13 @@ body {
     border-bottom: 1px solid #e2e8f0;
     z-index: 1000;
     transition: var(--transition);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--shadow);
+    transform: translateY(0);
 }
 
 .nav-container {
@@ -69,18 +220,30 @@ body {
     height: 70px;
 }
 
-/* Logo styling */
+/* Logo styling with hover animation */
 .logo {
     font-size: 24px;
     font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .logo-main {
     color: var(--dark);
+    transition: var(--transition);
 }
 
 .logo-accent {
     color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.logo:hover .logo-accent {
+    color: var(--secondary-color);
 }
 
 /* Navigation menu */
@@ -91,38 +254,89 @@ body {
     align-items: center;
 }
 
+.nav-menu li {
+    animation: fadeInUp 0.8s ease-out;
+    animation-delay: calc(var(--i) * 0.1s);
+    animation-fill-mode: both;
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--dark);
     font-weight: 500;
+    position: relative;
+    padding: 8px 16px;
+    border-radius: 8px;
     transition: var(--transition);
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: var(--transition);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::before {
+    width: 80%;
 }
 
 .nav-link:hover {
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
-/* Login button */
+/* Login button with advanced animations */
 .login-btn {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white);
     padding: 10px 20px;
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     transition: var(--transition);
 }
 
-.login-btn:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
+.login-btn:hover::before {
+    left: 100%;
 }
 
-/* Mobile menu button */
+.login-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+/* Mobile menu button with animation */
 .mobile-menu-btn {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    padding: 5px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.mobile-menu-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
 }
 
 .mobile-menu-btn span {
@@ -131,6 +345,19 @@ body {
     background: var(--dark);
     margin: 3px 0;
     transition: var(--transition);
+    border-radius: 2px;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* =================================
@@ -694,14 +921,14 @@ body {
 }
 
 /* =================================
-   SMOOTH ANIMATIONS
+   ADVANCED ANIMATIONS & EFFECTS
    ================================= */
 
 html {
     scroll-behavior: smooth;
 }
 
-/* Fade in animation for sections */
+/* Enhanced fade in animation for sections */
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
@@ -711,4 +938,196 @@ html {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Ripple effect for buttons */
+.btn, .login-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: var(--transition-slow);
+    z-index: 1000;
+}
+
+.scroll-to-top.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+}
+
+/* Enhanced floating cards animation */
+.floating-card {
+    animation: float 3s ease-in-out infinite;
+    transition: var(--transition);
+}
+
+.floating-card:hover {
+    animation-play-state: paused;
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Staggered animations for grids */
+.services-grid .service-card,
+.features-grid .feature-card,
+.stats-grid .stat-card,
+.testimonials-grid .testimonial-card,
+.portfolio-grid .portfolio-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition-slow);
+}
+
+.services-grid .service-card.visible,
+.features-grid .feature-card.visible,
+.stats-grid .stat-card.visible,
+.testimonials-grid .testimonial-card.visible,
+.portfolio-grid .portfolio-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Enhanced hover effects for cards */
+.service-card,
+.feature-card,
+.testimonial-card,
+.portfolio-item {
+    transition: var(--transition);
+}
+
+.service-card:hover,
+.feature-card:hover,
+.testimonial-card:hover,
+.portfolio-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Glowing effect for important elements */
+.hero-badge,
+.popular-badge {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-badge::before,
+.popular-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+/* Enhanced mobile menu animations */
+.nav-menu li {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: var(--transition);
+}
+
+.nav-menu.active li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading state animations */
+body.loaded .hero-title {
+    animation: fadeInUp 1s ease-out;
+}
+
+body.loaded .hero-description {
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+body.loaded .hero-buttons {
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, textarea, select {
+    transition: var(--transition);
+}
+
+/* Focus states for accessibility */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Performance optimizations */
+.floating-card,
+.service-card,
+.feature-card,
+.testimonial-card,
+.portfolio-item {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Enhanced gradient animations */
+.login-btn,
+.btn-primary {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
